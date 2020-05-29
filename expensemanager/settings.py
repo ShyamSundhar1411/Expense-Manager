@@ -77,12 +77,8 @@ WSGI_APPLICATION = 'expensemanager.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'expensemanagerdb',
-        'USER': 'postgres',
-        'PASSWORD':'shyam1411',
-        'HOST':'localhost',
-        'PORT':'5432'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
