@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<br/>
+<h1>Add expense👇🏻</h1>
+<hr/>
+{% if error %}
+<br/>
+<h3>{{error}}</h3>
+{% endif %}
+<form method='POST' action="{% url 'budget' %}" enctype='multipart/form-data'>
+{% csrf_token %}
+Budget :
+<br/>
+<input type='number' name='budget'/>
+<br/>
+<br/>
+<input class='btn btn-primary' type='submit' value='Add'/>
+
+</form>
+{% endblock %}

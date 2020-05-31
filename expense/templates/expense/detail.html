@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<br/>
+<h1>Expenses</h1>
+<hr/>
+<br/>
+{% for expense in hey.all %}
+
+<div class='container'>
+  <div class='row'>
+    <div class="col-md-4 float:left; width:25%;" >
+      <div class="card shadow-sm mb-4 padding:18px 18px" style="max-width: 18rem ;">
+      <div class="card-header text-italic"><h1>{{expense.title}}</h1></div>
+      <div class="card-body text-sm-left">
+        <h2 class="card-title">{{expense.expense}}</h2>
+        <h2 class="card-text">{{expense.category}}</h2>
+    </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+
+{% endfor %}
+<br/>
+<br/>
+<div class='container'>
+
+<div class='card text-white bg-secondary mb-3' style="max-width: 13rem;">
+<a class='nav-item nav-link' href="{% url 'expense' %}"><h3>Add expense</h3></a>
+</div>
+</div>
+{% endblock %}

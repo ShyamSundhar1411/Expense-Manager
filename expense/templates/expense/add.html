@@ -1,4 +1,32 @@
 {% extends 'base.html' %}
 {% block content %}
-😉
+
+<br/>
+<h1>Add expense👇🏻</h1>
+<hr/>
+{% if error %}
+<br/>
+<h3>{{error}}</h3>
+{% endif %}
+<form method='POST' action="{% url 'expense' %}" enctype='multipart/form-data'>
+{% csrf_token %}
+Title
+<br/>
+<input type='text' name='title'/>
+<br/>
+Expense:
+<br/>
+<input type='number' name='expense' />
+<br/>
+Category :
+<br/>
+<input type='text' name='category'/>
+<br/>
+<br/>
+Budget Left:
+<br/>
+<br/>
+<input class='btn btn-primary' type='submit' value='Add'/>
+
+</form>
 {% endblock %}
