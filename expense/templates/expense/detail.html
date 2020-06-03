@@ -4,24 +4,35 @@
 <h1>Expenses</h1>
 <hr/>
 <br/>
+
 {% for expense in hey.all %}
+    {% if expense.title %}
+    <div class="row row-cols-1 row-cols-md-3">
+      <div class="col mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h1 class="card-title">{{expense.title}}</h1>
 
-<div class='container'>
-  <div class='row'>
-    <div class="col-md-4 float:left; width:25%;" >
-      <div class="card shadow-sm mb-4 padding:18px 18px" style="max-width: 18rem ;">
-      <div class="card-header text-italic"><h1>{{expense.title}}</h1></div>
-      <div class="card-body text-sm-left">
-        <h2 class="card-title">{{expense.expense}}</h2>
-        <h2 class="card-text">{{expense.category}}</h2>
+            <hr/>
+            <p class="card-text"><h2>${{expense.expense}}</h2></p>
+            <p class='card-text'><h2>{{expense.category}}</h2></p>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <div class="col mb-4" style='padding:1px 100px 100px 100px'>
+        <div class="card">
+          <div class="card-body">
+            <h1 class="card-title">Budget</h1>
+            <p class="card-text"><h2>${{expense.budget}}</h2></p>
+          </div>
+        </div>
+      </div>
+
     </div>
-  </div>
-  </div>
-  </div>
-</div>
-
-
+{% endif %}
 {% endfor %}
+
 <br/>
 <br/>
 <div class='container'>

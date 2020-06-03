@@ -2,5 +2,7 @@
 {% block content %}
 <br/>
 <br/>
-
+{% for product in product.all %}
+{{product.budget}}
+{% endfor %}
 {% endblock %}

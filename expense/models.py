@@ -7,14 +7,11 @@ class Expense(models.Model):
     expense=models.IntegerField(default=0)
     category=models.CharField(max_length=150)
     dot=models.DateTimeField()
+    budget=models.PositiveIntegerField(default=0)
     expenser=models.ForeignKey(User,on_delete = models.CASCADE)
     def dot_pretty(self):
         return self.dot.strftime('%b %e %Y')
     def __str__(self):
         return self.title
-class Budget(models.Model):
-    budget=models.IntegerField(default=0)
-    dot=models.DateTimeField()
-
-    def dot_pretty(self):
-        return self.dot.strftime('%b %e %Y')
+    def all(self,n):
+        return self.budget+n
