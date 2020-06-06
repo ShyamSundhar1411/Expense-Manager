@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.db import IntegrityError
 
 def home(request):
-    p=Expense.objects
+    p=Expense.objects.all()
     return render(request,'expense/home.html',{'product':p})
 def add(request):
     if request.method=='POST':
@@ -18,25 +18,35 @@ def add(request):
             exp.expenser=request.user
             exp.save()
             return redirect('/expense/'+ str(exp.id))
-
+        else:
+            return render(request,'expense/add.html',{'error':'All fields are required'})
     else:
         return render(request,'expense/add.html')
 def budget(request):
-        if request.method=='POST':
-            exp=Expense()
-            exp.budget=0
-            a=int(request.POST['budget'])
-            exp.budget+=a
-            exp.dot=timezone.datetime.now()
-            exp.expenser=request.user
-            exp.save()
-            return redirect('/expense/'+str(exp.id))
 
+    if request.method=='POST':
+        exp=Expense()
+        exp.budget=0
+        a=int(request.POST['budget'])
+        exp.budget+=a
+        exp.dot=timezone.datetime.now()
+        exp.expenser=request.user
+        if exp.expense:
+            r=request.POST['expense']
+            exp.budget-=r
         else:
-            return render(request,'expense/budget.html')
+            a=int(request.POST['budget'])
+            exp.budget=a
+            exp.save()
+            o=Expense.objects.all()
+            return render(request,'expense/add.html',{'budget':o})
+            count+=1
+    else:
+        return render(request,'expense/budget.html')
 
 def detail(request,expense_id):
         a=get_object_or_404(Expense, pk = expense_id)
+        a.budget_left
+        a.save()
         w=Expense.objects.all()
-
         return render(request,'expense/detail.html',{'expense':a,'hey':w})

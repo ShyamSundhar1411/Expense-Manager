@@ -6,5 +6,6 @@ from .import views
 urlpatterns = [
     path('add',views.add,name='expense'),
     path('<int:expense_id>',views.detail,name='detail'),
-    path('budget',views.budget,name='budget')
+    path('budget',views.budget,name='budget'),
+
 ]

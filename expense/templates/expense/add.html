@@ -10,7 +10,7 @@
 {% endif %}
 <form method='POST' action="{% url 'expense' %}" enctype='multipart/form-data'>
 {% csrf_token %}
-Title
+Title :
 <br/>
 <input type='text' name='title'/>
 <br/>
@@ -23,9 +23,7 @@ Category :
 <input type='text' name='category'/>
 <br/>
 <br/>
-Budget Left :  {{expense.budget}}
-<br/>
-<br/>
+
 <input class='btn btn-primary' type='submit' value='Add'/>
 
 </form>

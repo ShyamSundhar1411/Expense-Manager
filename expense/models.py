@@ -9,6 +9,12 @@ class Expense(models.Model):
     dot=models.DateTimeField()
     budget=models.PositiveIntegerField(default=0)
     expenser=models.ForeignKey(User,on_delete = models.CASCADE)
+    transactions=models.IntegerField(default=0)
+    def budget_left(self):
+        if self.expense!=0:
+            return self.budget-self.expense
+        else:
+            return self.budget
     def dot_pretty(self):
         return self.dot.strftime('%b %e %Y')
     def __str__(self):
