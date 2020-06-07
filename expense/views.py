@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.db import IntegrityError
 
 def home(request):
-    p=Expense.objects.all()
+    p=Expense.objects
     return render(request,'expense/home.html',{'product':p})
 def add(request):
     if request.method=='POST':
@@ -50,3 +50,5 @@ def detail(request,expense_id):
         a.save()
         w=Expense.objects.all()
         return render(request,'expense/detail.html',{'expense':a,'hey':w})
+def about(request):
+    return render(request,'expense/about.html')
