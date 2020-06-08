@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Expense
+from .models import Expense,Budget
 from django.utils import timezone
 from django.db import IntegrityError
 
@@ -9,13 +9,14 @@ def home(request):
     return render(request,'expense/home.html',{'product':p})
 def add(request):
     if request.method=='POST':
-        if request.POST['title'] and request.POST['expense'] and request.POST['category']:
+        if request.POST['title'] and request.POST['expense'] and request.POST['category'] and request.FILES['receipt']:
             exp=Expense()
             exp.title=request.POST['title']
             exp.expense=request.POST['expense']
             exp.category=request.POST['category']
             exp.dot=timezone.datetime.now()
             exp.expenser=request.user
+            exp.receipt=request.FILES['receipt']
             exp.save()
             return redirect('/expense/'+ str(exp.id))
         else:
@@ -23,32 +24,22 @@ def add(request):
     else:
         return render(request,'expense/add.html')
 def budget(request):
-
     if request.method=='POST':
-        exp=Expense()
-        exp.budget=0
-        a=int(request.POST['budget'])
-        exp.budget+=a
-        exp.dot=timezone.datetime.now()
-        exp.expenser=request.user
-        if exp.expense:
-            r=request.POST['expense']
-            exp.budget-=r
-        else:
-            a=int(request.POST['budget'])
-            exp.budget=a
-            exp.save()
-            o=Expense.objects.all()
-            return render(request,'expense/add.html',{'budget':o})
-            count+=1
+        exp=Budget()
+        exp.userin=request.user
+        exp.budget=request.POST['budget']
+        exp.budl(request.GET['expense'])
+        exp.save()
+        k=Budget.objects
+        return render(request,'expense/home.html',{'budget':k})
     else:
         return render(request,'expense/budget.html')
-
 def detail(request,expense_id):
         a=get_object_or_404(Expense, pk = expense_id)
-        a.budget_left
         a.save()
-        w=Expense.objects.all()
-        return render(request,'expense/detail.html',{'expense':a,'hey':w})
+        w=Expense.objects.filter(expenser=request.user)
+        i=Budget.objects.filter(userin=request.user)
+        g=len(a.title)
+        return render(request,'expense/detail.html',{'expe':a,'hey':w,'bud':i,'Transactions':g})
 def about(request):
     return render(request,'expense/about.html')
