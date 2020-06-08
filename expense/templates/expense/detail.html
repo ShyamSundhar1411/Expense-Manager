@@ -9,7 +9,13 @@
     <div class="card-body">
       <h1 class="card-title">Budget</h1>
       <hr/>
+      <div class='col-5'>
       <p class="card-text"><h2>${{bud.budget}}</h2></p>
+      </div>
+      <br/>
+      <div class='col-12 bg-light'>
+        <p class='card-text'><h5 style='font-size:15px;color:light;'><span class="oi oi-clock" style='padding:10px'><span/>  Last Updated : {{bud.dot_pretty}}</h5></p>
+      </div>
     </div>
   </div>
 </div>
@@ -19,17 +25,25 @@
 {% for expense in hey.all %}
 <br/>
 <div class='container'>
-    <div class="col-6">
-      <div class="card" >
-        <div class="card-body">
-          <h1 class="card-title">{{expense.title}}<span style='padding:0px 0px 0px 300px;font-size:15px'>{{expense.dot_pretty}}</span></h1>
-          <hr/>
+  <div class="col-6">
+    <div class="card" >
+      <div class="card-body">
+        <h1 class="card-title">{{expense.title}}<span style='padding:0px 0px 0px 300px;font-size:15px'><span class="oi oi-clock" >   {{expense.dot_pretty}}<span/></span></h1>
+        <hr/>
+        <div class='col-6'>
+          <h4>Expense Receipt :</h4>
+          <br/>
+          <img src="{{expense.receipt.url}}" class='img-fluid' style='max-width:100%;max-length:100%;'/>
+        </div>
+        <div class='col-6'>
           <p class="card-text"><h2>${{expense.expense}}</h2></p>
           <p class='card-text'><h2>{{expense.category}}</h2></p>
         </div>
       </div>
+
     </div>
   </div>
+</div>
 {% endfor %}
 <br/>
 <br/>

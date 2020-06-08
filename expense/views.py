@@ -18,28 +18,28 @@ def add(request):
             exp.expenser=request.user
             exp.receipt=request.FILES['receipt']
             exp.save()
-            return redirect('/expense/'+ str(exp.id))
+            return redirect('detail')
         else:
             return render(request,'expense/add.html',{'error':'All fields are required'})
     else:
         return render(request,'expense/add.html')
 def budget(request):
     if request.method=='POST':
-        exp=Budget()
-        exp.userin=request.user
-        exp.budget=request.POST['budget']
-        exp.budl(request.GET['expense'])
-        exp.save()
-        k=Budget.objects
-        return render(request,'expense/home.html',{'budget':k})
+        if request.POST['budget']:
+            exp=Budget()
+            exp.userin=request.user
+            exp.budget=request.POST['budget']
+            exp.dot=timezone.datetime.now()
+            exp.save()
+            k=Budget.objects
+            return render(request,'expense/home.html',{'budget':'Successfully Added {x} to your account'.format(x=exp.budget)})
+        else:
+            return render(request,'expense/budget.html',{'error':'Entered the required fields'})
     else:
         return render(request,'expense/budget.html')
-def detail(request,expense_id):
-        a=get_object_or_404(Expense, pk = expense_id)
-        a.save()
+def detail(request):
         w=Expense.objects.filter(expenser=request.user)
         i=Budget.objects.filter(userin=request.user)
-        g=len(a.title)
-        return render(request,'expense/detail.html',{'expe':a,'hey':w,'bud':i,'Transactions':g})
+        return render(request,'expense/detail.html',{'hey':w,'bud':i})
 def about(request):
     return render(request,'expense/about.html')
