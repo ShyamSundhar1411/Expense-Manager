@@ -13,11 +13,11 @@ def signup(request):
                 auth.login(request,user)
                 return redirect('home')
         elif request.POST['Username']=='':
-            return render(request,'accounts/signup.html',{'error':'All fields are required'})
+            return render(request,'accounts/signup.html',{'error':'*All fields are required*'})
         elif len(request.POST['password1'])!=8:
-            return render(request,'accounts/signup.html',{'error':'Passwords must be atleast 8 characters'})
+            return render(request,'accounts/signup.html',{'error':'*Password must be atleast 8 characters*'})
         else:
-            return render(request,'accounts/signup.html',{'error':'Passwords must match'})
+            return render(request,'accounts/signup.html',{'error':'*Passwords must match*'})
     else:
         return render(request,'accounts/signup.html')
 def login(request):
@@ -27,7 +27,10 @@ def login(request):
             auth.login(request,user)
             return redirect('home')
         else:
-            return render(request,'accounts/login.html',{'error':'Username or password is wrong'})
+            if request.POST['Username']=='' and request.POST['password1']=='':
+                return render(request,'accounts/login.html',{'error':'*All fields are required*'})
+            else:
+                return render(request,'accounts/login.html',{'error':'*Username or password is wrong*'})
     else:
         return render(request,'accounts/login.html')
 def logout(request):

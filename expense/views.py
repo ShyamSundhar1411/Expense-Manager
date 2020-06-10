@@ -3,16 +3,17 @@ from django.contrib.auth.decorators import login_required
 from .models import Expense,Budget
 from django.utils import timezone
 from django.db import IntegrityError
-
+from django.db.models import Sum
 def home(request):
     p=Expense.objects
     return render(request,'expense/home.html',{'product':p})
 def add(request):
     if request.method=='POST':
-        if request.POST['title'] and request.POST['expense'] and request.POST['category'] and request.FILES['receipt']:
+        if request.POST['title'] and request.POST['expense'] and request.POST['category'] and request.FILES['receipt'] and request.POST['pay']:
             exp=Expense()
             exp.title=request.POST['title']
-            exp.expense=request.POST['expense']
+            exp.expense=int(request.POST['expense'])
+            exp.payment=request.POST['pay']
             exp.category=request.POST['category']
             exp.dot=timezone.datetime.now()
             exp.expenser=request.user
@@ -28,18 +29,20 @@ def budget(request):
         if request.POST['budget']:
             exp=Budget()
             exp.userin=request.user
-            exp.budget=request.POST['budget']
+            exp.budget=int(request.POST['budget'])
             exp.dot=timezone.datetime.now()
             exp.save()
             k=Budget.objects
-            return render(request,'expense/home.html',{'budget':'Successfully Added {x} to your account'.format(x=exp.budget)})
+            return render(request,'expense/home.html',{'budget':'Successfully Added ${x} to your account'.format(x=exp.budget)})
         else:
             return render(request,'expense/budget.html',{'error':'Entered the required fields'})
     else:
         return render(request,'expense/budget.html')
 def detail(request):
         w=Expense.objects.filter(expenser=request.user)
+        z=Expense.objects.filter(expenser=request.user).aggregate(tot=Sum('expense'))
         i=Budget.objects.filter(userin=request.user)
-        return render(request,'expense/detail.html',{'hey':w,'bud':i})
+
+        return render(request,'expense/detail.html',{'hey':w,'bud':i,'result':z})
 def about(request):
     return render(request,'expense/about.html')

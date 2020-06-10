@@ -10,6 +10,7 @@ class Expense(models.Model):
     expenser=models.ForeignKey(User,on_delete = models.CASCADE)
     transactions=models.IntegerField(default=0)
     receipt=models.ImageField(upload_to='images/')
+    payment=models.CharField(max_length=100,default='cash')
     def dot_pretty(self):
         return self.dot.strftime('%b %e %Y')
     def __str__(self):

@@ -10,9 +10,8 @@
 <form method='POST' action="{% url 'budget' %}" enctype='multipart/form-data'>
 {% csrf_token %}
 Budget :
-
 <br/>
-<input type='number' name='budget'/>
+<input type='number' name='budget' id='bud'/>
 <br/>
 <br/>
 <input class='btn btn-primary' type='submit' value='Add'/>
