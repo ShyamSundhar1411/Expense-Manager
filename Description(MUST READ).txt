@@ -1,0 +1,9 @@
+
+                                                             ---------------------------
+                                                             Steps to view our project
+                                                             ---------------------------
+This is our project on Website Development(Expense Manager) using python(Django).
+1]Open Windows Powershell/CMD in this folder.
+2]Activate the virtual environment by "venv/scripts/activate"
+3]Now change the directory to the project folder by "cd expense_manager"
+4]Now run the local host server by "py manage.py runserver"
