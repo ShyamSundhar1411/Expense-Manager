@@ -4,17 +4,17 @@ from django.contrib import auth
 
 def signup(request):
     if request.method=='POST':
-        if request.POST['password1']==request.POST['password2'] and request.POST['Username'] !="" and len(request.POST['password1'])==8:
+        if request.POST['password1']==request.POST['password2'] and request.POST['Username'] !="" and len(request.POST['password1'])>=8:
             try:
                 user=User.objects.get(username=request.POST['Username'])
                 return render(request,'accounts/signup.html',{'error':'Username is already taken.Try different one'})
             except User.DoesNotExist:
                 user=User.objects.create_user(username=request.POST['Username'],password=request.POST['password1'])
                 auth.login(request,user)
-                return redirect('home')
+                return render(request,'expense/budget.html',{'wel':'Enter Budget to continue to home page🙂'})
         elif request.POST['Username']=='':
             return render(request,'accounts/signup.html',{'error':'*All fields are required*'})
-        elif len(request.POST['password1'])!=8:
+        elif len(request.POST['password1'])<8:
             return render(request,'accounts/signup.html',{'error':'*Password must be atleast 8 characters*'})
         else:
             return render(request,'accounts/signup.html',{'error':'*Passwords must match*'})

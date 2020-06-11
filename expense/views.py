@@ -9,7 +9,7 @@ def home(request):
     return render(request,'expense/home.html',{'product':p})
 def add(request):
     if request.method=='POST':
-        if request.POST['title'] and request.POST['expense'] and request.POST['category'] and request.FILES['receipt'] and request.POST['pay']:
+        if request.POST['title'] and request.POST['expense']and request.POST['category'] and request.FILES['receipt'] and request.POST['pay']:
             exp=Expense()
             exp.title=request.POST['title']
             exp.expense=int(request.POST['expense'])
@@ -31,6 +31,7 @@ def budget(request):
             exp.userin=request.user
             exp.budget=int(request.POST['budget'])
             exp.dot=timezone.datetime.now()
+            exp.source=request.POST['source']
             exp.save()
             k=Budget.objects
             return render(request,'expense/home.html',{'budget':'Successfully Added ${x} to your account'.format(x=exp.budget)})
@@ -42,7 +43,16 @@ def detail(request):
         w=Expense.objects.filter(expenser=request.user)
         z=Expense.objects.filter(expenser=request.user).aggregate(tot=Sum('expense'))
         i=Budget.objects.filter(userin=request.user)
+        p=Budget.objects.filter(userin=request.user).aggregate(are=Sum('budget'))
+        if p['are'] is None:
+                return render(request,'expense/home.html',{'hey':w,'bud':i,'result':z,'error':'*Not enough Funds. Add Budget to Continue. Remember Your initial expense value will be deducted from the new Budget amount. Your Account is locked until that*'})
+        elif z['tot'] is None:
+                return render(request,'expense/home.html',{'hey':w,'bud':i,'result':z,'error':'*Enter Expense to continue. Your Account is locked until that.*'})
 
-        return render(request,'expense/detail.html',{'hey':w,'bud':i,'result':z})
+        else:
+            if z['tot']>p['are']:
+                return render(request,'expense/home.html',{'hey':w,'bud':i,'result':z,'error':'*Not enough Funds. Add Budget to Continue. Remember Your initial expense value will be deducted from the new Budget amount. Your Account is locked until that*'})
+            else:
+                return render(request,'expense/detail.html',{'hey':w,'bud':i,'result':z})
 def about(request):
     return render(request,'expense/about.html')

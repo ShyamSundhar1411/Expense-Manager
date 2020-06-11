@@ -71,10 +71,10 @@
             <a class='nav-item nav-link' href="{% url 'detail' %}">Your Account</a>
             <a class='nav-item nav-link' href='javascript:{document.getElementById("log1").submit()}'>Logout </a>
             <form id ='log1' method='POST' action='{% url "logout" %}'>
+
               {% csrf_token %}
               <input type='Hidden'/>
             </form>
-
             {% else %}
             <li class="nav-item ">
               <a class="nav-link" href="{% url 'signup' %}">Sign up</a>

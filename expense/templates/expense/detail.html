@@ -1,18 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load mathfilters %}
-<br/>
 <h1>Expenses</h1>
 <hr/>
-{% for expense in hey.all %}
 {% for bud in bud.all %}
 <div class='container' style='position:absolute;padding:0px 0px 0px 800px;'>
   <div class="card">
     <div class="card-body">
       <h1 class="card-title">Budget</h1>
       <hr/>
-      <div class='col-5'>
+      <div class='col-7'>
       <p class="card-text"><h2>${{bud.budget|sub:result.tot}}</h2></p>
+      </div>
+      <div class='col-12'>
+        <p class="card-text"><h2>Source: {{bud.source}}</h2></p>
       </div>
       <br/>
       <div class='col-12 bg-light'>
@@ -22,7 +23,7 @@
   </div>
 </div>
 {% endfor %}
-{% endfor %}
+
 
 <br/>
 <br/>
@@ -32,10 +33,10 @@
   <div class="col-6">
     <div class="card" >
       <div class="card-body">
-        <h1 class="card-title">{{expense.title}}<span style='padding:0px 0px 0px 180px;font-size:25px'><span class="oi oi-clock" >   {{expense.dot_pretty}}<span/></span></h1>
+        <h1 class="card-title">{{expense.title}}<span style='padding:0px 0px 0px 185px;font-size:25px'><span class="oi oi-clock" >   {{expense.dot_pretty}}<span/></span></h1>
         <hr/>
         <div class='col-6'>
-          <h4>Expense Receipt :</h4>
+          <h4>Expense Bill :</h4>
           <br/>
           <img src="{{expense.receipt.url}}" class='img-fluid' style='max-width:100%;max-length:100%;'/>
         </div>

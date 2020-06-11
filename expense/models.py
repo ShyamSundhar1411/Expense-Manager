@@ -18,6 +18,7 @@ class Expense(models.Model):
 class Budget(models.Model):
     budget=models.PositiveIntegerField(default=0)
     dot=models.DateTimeField()
+    source=models.CharField(max_length=50,default='Salary Income')
     userin=models.ForeignKey(User,on_delete = models.CASCADE)
     def dot_pretty(self):
         return self.dot.strftime('%b %e %Y')
