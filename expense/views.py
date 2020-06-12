@@ -47,7 +47,7 @@ def detail(request):
         if p['are'] is None:
                 return render(request,'expense/home.html',{'hey':w,'bud':i,'result':z,'error':'*Not enough Funds. Add Budget to Continue. Remember Your initial expense value will be deducted from the new Budget amount. Your Account is locked until that*'})
         elif z['tot'] is None:
-                return render(request,'expense/home.html',{'hey':w,'bud':i,'result':z,'error':'*Enter Expense to continue. Your Account is locked until that.*'})
+                return render(request,'expense/home.html',{'hey':w,'bud':i,'result':z,'error':'*Enter Expense to continue. Your Account is locked until that*'})
 
         else:
             if z['tot']>p['are']:
