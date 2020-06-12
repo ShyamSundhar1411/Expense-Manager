@@ -53,6 +53,6 @@ def detail(request):
             if z['tot']>p['are']:
                 return render(request,'expense/home.html',{'hey':w,'bud':i,'result':z,'error':'*Not enough Funds. Add Budget to Continue. Remember Your initial expense value will be deducted from the new Budget amount. Your Account is locked until that*'})
             else:
-                return render(request,'expense/detail.html',{'hey':w,'bud':i,'result':z})
+                return render(request,'expense/detail.html',{'hey':w,'bud':i,'result':z,'sue':p})
 def about(request):
     return render(request,'expense/about.html')
