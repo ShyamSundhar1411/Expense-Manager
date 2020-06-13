@@ -5,7 +5,6 @@
 <h1>Add expense👇🏻</h1>
 <hr/>
 {% if error %}
-<br/>
 <h3 style='color:red;'>{{error}}</h3>
 {% endif %}
 <form method='POST' action="{% url 'expense' %}" enctype='multipart/form-data'>

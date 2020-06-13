@@ -4,12 +4,17 @@ from .models import Expense,Budget
 from django.utils import timezone
 from django.db import IntegrityError
 from django.db.models import Sum
+from django.utils.datastructures import MultiValueDictKeyError
 def home(request):
     p=Expense.objects
     return render(request,'expense/home.html',{'product':p})
 def add(request):
     if request.method=='POST':
-        if request.POST['title'] and request.POST['expense']and request.POST['category'] and request.FILES['receipt'] and request.POST['pay']:
+        if request.POST['title'] and request.POST['expense'] and request.POST['category']  and request.POST['pay']:
+            try:
+                im=request.FILES['receipt']
+            except MultiValueDictKeyError:
+                return render(request,'expense/add.html',{'error':'All fields are required'})
             exp=Expense()
             exp.title=request.POST['title']
             exp.expense=int(request.POST['expense'])
