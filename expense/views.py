@@ -5,9 +5,11 @@ from django.utils import timezone
 from django.db import IntegrityError
 from django.db.models import Sum
 from django.utils.datastructures import MultiValueDictKeyError
+from django.contrib.auth.decorators import login_required
 def home(request):
     p=Expense.objects
     return render(request,'expense/home.html',{'product':p})
+@login_required()
 def add(request):
     if request.method=='POST':
         if request.POST['title'] and request.POST['expense'] and request.POST['category']  and request.POST['pay']:
@@ -29,6 +31,7 @@ def add(request):
             return render(request,'expense/add.html',{'error':'All fields are required'})
     else:
         return render(request,'expense/add.html')
+@login_required
 def budget(request):
     if request.method=='POST':
         if request.POST['budget']:
@@ -44,6 +47,7 @@ def budget(request):
             return render(request,'expense/budget.html',{'error':'Entered the required fields'})
     else:
         return render(request,'expense/budget.html')
+@login_required()
 def detail(request):
         w=Expense.objects.filter(expenser=request.user)
         z=Expense.objects.filter(expenser=request.user).aggregate(tot=Sum('expense'))

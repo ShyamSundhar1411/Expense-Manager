@@ -17,6 +17,7 @@
     <!-- Bootstrap core CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <link href='{% static "open-iconic/font/css/open-iconic-bootstrap.css" %}' rel='stylesheet'>
+<link href="https://fonts.googleapis.com/css2?family=Galada&display=swap" rel="stylesheet">
     <!-- Favicons -->
 <link rel="apple-touch-icon" href="/docs/4.5/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
 <link rel="icon" href="/docs/4.5/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
@@ -49,16 +50,46 @@
       body{
         background-image: url('https://www.wallpaperflare.com/static/483/576/977/abstract-hexagon-simple-minimalism-wallpaper.jpg');
         background-size: contain;
+        font-family: 'Galada', cursive;
+        }
+        #lo{
+          color:rgba(0,0,0,1);
+        }
+        #lo:hover {
+          color:green;
+        }
+        .navbar-nav .nav-link:hover{
+            color:green !important;
+        }
+        .navbar-nav .nav-link{
+        font-weight:400;
+        color:rgba(0,0,0,0.5) !important;
+        }
+        #k{
+          color:rgba(0,0,0,1) !important;
+        }
+        #k:hover{
+          color:green !important;
+        }
+        #ab{
+          color:black !important;
+        }
+        #ab:hover{
+          color:green !important;
+        }
+        #te:hover{
+          color:green;
+        }
+        
 
-
-      }
       </style>
     <link href="album.css" rel="stylesheet">
   </head>
   <body >
     <header>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href='{% url "home" %}'>
+      <div class = 'container'>
+       <nav class="navbar navbar-expand-lg navbar-light " style = 'color:white' id = 'topnav'>
+        <a class="navbar-brand" href='{% url "home" %}' id = 'te'>
           <img src ='{% static "pay.png" %}' class='d-inline-block align-top-right' height=50 width=50/>
           Expense Manager
         </a>
@@ -86,6 +117,7 @@
           </ul>
         </div>
       </nav>
+    </div>
     </header>
 <div class='container'>
  {% block content %}
