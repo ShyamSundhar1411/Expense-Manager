@@ -7,17 +7,19 @@
 <h3 style='color:red;'>{{error}}</h3>
 {% endif %}
 <form method='POST' action="{% url 'login' %}">
-{% csrf_token %}
-Username:
-<br/>
-<input type='text' name='Username'/>
-<br/>
-Password:
-<br/>
-<input type='password' name='password1' />
-<br/>
-<br>
-<input class='btn btn-primary' type='submit' value='Log in'/>
+  {% csrf_token %}
+  Username:
+  <br/>
+  <input type='text' name='Username'/>
+  <br/>
+  Password:
+  <br/>
+  <input type='password' name='password1' />
+  <br/>
+  <br/>
+  <h5 class = 'text-muted'>Not Having account ?<a href = '{% url "signup" %}' id = 'te' style = 'color:black'>Signup</a></h5>
+  <br/>
+  <input class='btn btn-primary' type='submit' value='Log in'/>
 
 </form>
 {% endblock %}

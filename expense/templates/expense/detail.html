@@ -10,7 +10,7 @@
       <h1 class="card-title">Budget</h1>
       <hr/>
       <div class='col-7'>
-      <p class="card-text"><h2>${{sue.are|sub:result.tot}}</h2></p>
+        <p class="card-text"><h2>${{sue.are|sub:result.tot}}</h2></p>
       </div>
       <div class='col-12'>
         <p class="card-text"><h2>Source: {{bud.source}}</h2></p>
@@ -18,44 +18,43 @@
       <br/>
       <div class='col-12 bg-light'>
         <p class='card-text'><h5 style='font-size:15px;color:light;'><span class="oi oi-clock" style='padding:10px'><span/>  Last Updated : {{bud.dot_pretty}}</h5></p>
+        </div>
       </div>
     </div>
   </div>
-</div>
-{% endfor %}
+  {% endfor %}
 
 
-<br/>
-<br/>
-{% for expense in hey.all %}
-<br/>
-<div class='container'>
-  <div class="col-6">
-    <div class="card" >
-      <div class="card-body">
-        <h1 class="card-title">{{expense.title}}<span style='padding:0px 0px 0px 185px;font-size:25px'><span class="oi oi-clock" >   {{expense.dot_pretty}}<span/></span></h1>
-        <hr/>
-        <div class='col-6'>
-          <h4>Expense Bill :</h4>
-          <br/>
-          <img src="{{expense.receipt.url}}" class='img-fluid' style='max-width:100%;max-length:100%;'/>
-        </div>
-        <div class='col-10'>
-          <p class="card-text"><h2>Expense: ${{expense.expense}}</h2><//p>
-          <p class='card-text'><h2>Category: {{expense.category}}</h2></p>
-          <p class='card-text'><h2>Paid Through: {{expense.payment}}</h2></p>
+  <br/>
+  <br/>
+  {% for expense in hey.all %}
+  <br/>
+  <div class='container'>
+    <div class="col-6">
+      <div class="card bg-light" >
+        <div class="card-body">
+          <h1 class="card-title">{{expense.title}}<span style='padding:0px 0px 0px 185px;font-size:25px'><span class="oi oi-clock" >   {{expense.dot_pretty}}<span/></span></h1>
+          <hr/>
+          <div class='col-6'>
+            <h4>Expense Bill :</h4>
+            <br/>
+            <img src="{{expense.receipt.url}}" class='img-fluid' style='max-width:100%;max-length:100%;'/>
+          </div>
+          <div class='col-10'>
+            <p class="card-text"><h2>Expense: ${{expense.expense}}</h2><//p>
+              <p class='card-text'><h2>Category: {{expense.category}}</h2></p>
+              <p class='card-text'><h2>Paid Through: {{expense.payment}}</h2></p>
+            </div>
+          </div>
+
         </div>
       </div>
-
+    </div>
+    {% endfor %}
+    <br/>
+    <br/>
+    <div class='container'>
+      <button class = 'btn btn-primary'><a href ='{% url "expense" %} ' style = 'color:white' id = 'r'>Add Expense</a></button>
     </div>
   </div>
-</div>
-{% endfor %}
-<br/>
-<br/>
-<div class='container'>
-  <div class='card text-white bg-secondary mb-3' style="max-width: 13rem;">
-    <a class='nav-item nav-link' href="{% url 'expense' %}" style='color:white;'><h3>Add expense</h3></a>
-  </div>
-</div>
-{% endblock %}
+  {% endblock %}
