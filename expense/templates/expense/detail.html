@@ -3,6 +3,14 @@
 {% load mathfilters %}
 <h1>Expenses</h1>
 <hr/>
+<form action = "{% url 'detail' %}">
+  <select name = 'filter'>
+    <option value = 'Weekly'>Weekly</option>
+    <option value = 'Monthly'>Monthly</option>
+    <option value = 'Yearly'>Yearly</option>
+  </select> <input type = 'submit' value = 'Filter' class = 'btn btn-primary'/>
+</form>
+
 {% for bud in bud.all %}
 <div class='container' style='position:absolute;padding:0px 0px 0px 800px;'>
   <div class="card">
@@ -35,10 +43,13 @@
         <div class="card-body">
           <h1 class="card-title">{{expense.title}}<span style='padding:0px 0px 0px 185px;font-size:25px'><span class="oi oi-clock" >   {{expense.dot_pretty}}<span/></span></h1>
           <hr/>
+          {% if expense.receipt %}
           <div class='col-6'>
             <h4>Expense Bill :</h4>
             <br/>
             <img src="{{expense.receipt.url}}" class='img-fluid' style='max-width:100%;max-length:100%;'/>
+
+            {% endif %}
           </div>
           <div class='col-10'>
             <p class="card-text"><h2>Expense: ${{expense.expense}}</h2><//p>
@@ -56,5 +67,5 @@
     <div class='container'>
       <button class = 'btn btn-primary'><a href ='{% url "expense" %} ' style = 'color:white' id = 'r'>Add Expense</a></button>
     </div>
-  </div>
+
   {% endblock %}

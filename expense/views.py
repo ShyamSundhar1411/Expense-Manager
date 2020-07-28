@@ -49,7 +49,7 @@ def budget(request):
         return render(request,'expense/budget.html')
 @login_required()
 def detail(request):
-        w=Expense.objects.filter(expenser=request.user)
+        w=Expense.objects.filter(expenser=request.user).order_by('-dot')
         z=Expense.objects.filter(expenser=request.user).aggregate(tot=Sum('expense'))
         i=Budget.objects.filter(userin=request.user)
         p=Budget.objects.filter(userin=request.user).aggregate(are=Sum('budget'))
@@ -62,6 +62,13 @@ def detail(request):
             if z['tot']>p['are']:
                 return render(request,'expense/home.html',{'hey':w,'bud':i,'result':z,'error':'*Not enough Funds. Add Budget to Continue. Remember Your initial expense value will be deducted from the new Budget amount. Your Account is locked until that*'})
             else:
-                return render(request,'expense/detail.html',{'hey':w,'bud':i,'result':z,'sue':p})
+                if request.GET.get('filter') == 'Weekly':
+                    return render(request,'expense/detail.html',{'hey':w.order_by('-dot__week'),'bud':i,'result':z,'sue':p})
+                elif request.GET.get('filter') == 'Yearly':
+                    return render(request,'expense/detail.html',{'hey':w.order_by('-dot__year'),'bud':i,'result':z,'sue':p})
+                elif request.GET.get('filter') == 'Monthly':
+                    return render(request,'expense/detail.html',{'hey':w.order_by('-dot__month'),'bud':i,'result':z,'sue':p})
+                else:
+                    return render(request,'expense/detail.html',{'hey':w,'bud':i,'result':z,'sue':p})
 def about(request):
     return render(request,'expense/about.html')
