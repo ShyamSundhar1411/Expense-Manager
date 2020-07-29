@@ -6,6 +6,8 @@ from django.db import IntegrityError
 from django.db.models import Sum
 from django.utils.datastructures import MultiValueDictKeyError
 from django.contrib.auth.decorators import login_required
+import csv
+from django.http import HttpResponse
 def home(request):
     p=Expense.objects
     return render(request,'expense/home.html',{'product':p})
@@ -72,3 +74,18 @@ def detail(request):
                     return render(request,'expense/detail.html',{'hey':w,'bud':i,'result':z,'sue':p})
 def about(request):
     return render(request,'expense/about.html')
+def report(request):
+    response = HttpResponse(content_type = 'text/csv')
+    writer = csv.writer(response)
+    if request.GET.get('repo') == 'Expense':
+        writer.writerow(['Title','Category','Expense','Date','Mode of Payment'])
+        for i in Expense.objects.filter(expenser = request.user).extra(select={'date':"STRFTIME('%%d-%%m-%%Y',dot)"}).values_list('title','category','expense','date','payment'):
+            writer.writerow(i)
+        response['Content-Disposition'] = 'attachment;filename = "Expense_reports.csv"'
+        return response
+    else:
+        writer.writerow(['Budget','Source','Last Updated'])
+        for i in Budget.objects.filter(userin= request.user).extra(select={'date':"STRFTIME('%%d-%%m-%%Y',dot)"}).values_list('budget','source','date'):
+                writer.writerow(i)
+        response['Content-Disposition'] = 'attachment;filename = "Budget_reports.csv"'
+        return response
