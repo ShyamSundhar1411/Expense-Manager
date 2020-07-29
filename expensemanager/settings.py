@@ -37,9 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts',
     'expense',
     'mathfilters',
+    'widget_tweaks'
 
 ]
 
@@ -128,4 +128,5 @@ MEDIA_URL  = '/media/'
 STATIC_ROOT=os.path.join(BASE_DIR,'static')
 STATIC_URL = '/static/'
 LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = ''
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'

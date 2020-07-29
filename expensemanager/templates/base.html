@@ -79,9 +79,10 @@
     color:green !important;
   }
   #te:hover{
-    color:green !important;
+    color:blue !important;
   }
   #te{
+    color:black;
     text-decoration: none;
   }
   .carousel-item{
@@ -93,6 +94,11 @@
   #r{
     text-decoration: none;
   }
+  #carouselExampleIndicators li {
+width: 7px;
+height: 7px;
+border-radius: 75%;
+}
   </style>
   <link href="album.css" rel="stylesheet">
 </head>
@@ -100,7 +106,7 @@
   <header>
     <div class = 'container'>
       <nav class="navbar navbar-expand-lg navbar-light " style = 'color:white' id = 'topnav'>
-        <a class="navbar-brand" href='{% url "home" %}' id = 'te'>
+        <a class="navbar-brand" href='{% url "home" %}' id = 'lo'>
           <img src ='{% static "pay.png" %}' class='d-inline-block align-top-right' height=50 width=50/>
           Expense Manager
         </a>

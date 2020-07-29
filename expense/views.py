@@ -6,11 +6,25 @@ from django.db import IntegrityError
 from django.db.models import Sum
 from django.utils.datastructures import MultiValueDictKeyError
 from django.contrib.auth.decorators import login_required
-import csv
+from django.contrib.auth import login,authenticate
 from django.http import HttpResponse
+from django.urls import reverse_lazy
+from django.views import generic
+from django.contrib.auth.forms import UserCreationForm
+import csv
 def home(request):
     p=Expense.objects
     return render(request,'expense/home.html',{'product':p})
+class Signup(generic.CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy('home')
+    template_name = 'registration/signup.html'
+    def form_valid(self,form):
+        v = super(Signup,self).form_valid(form)
+        username, password = form.cleaned_data.get('username'),form.cleaned_data.get('password1')
+        user = authenticate(username = username,password = password)
+        login(self.request,user)
+        return v
 @login_required()
 def add(request):
     if request.method=='POST':
