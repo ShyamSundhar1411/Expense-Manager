@@ -57,13 +57,13 @@
         <p class="card-text mb-auto" style = 'font-size:20px;'>Category: {{expense.category}}</p>
         <p class="card-text mb-auto" style = 'font-size:20px;'>Paid Through: {{expense.payment}}</p>
         <div class = 'inline-block'>
-          <a class = 'btn btn-danger' style = 'width:30%;' href ='{% url "delexp" expense.id %}'>Delete</a>
-          <a class = 'btn btn-primary' style = 'width:30%;' href ='{% url "update" expense.id %}'>Update</a>
+          <a class = 'btn btn-danger' style = 'width:40%;' href ='{% url "delexp" expense.id %}'>Delete</a>
+          <a class = 'btn btn-primary' style = 'width:40%;' href ='{% url "update" expense.id %}'>Update</a>
         </div>
       </div>
       {% if expense.receipt %}
       <div class="col-auto d-none d-lg-block ">
-        <img class="bd-placeholder-img" src = "{{expense.receipt.url}}"width="200" height="250"  aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c">
+        <img class="bd-placeholder-img" src = "{{expense.receipt.url}}" width="200" height="250"  aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c">
         </div>
         {% endif %}
       </div>
