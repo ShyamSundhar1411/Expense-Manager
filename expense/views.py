@@ -7,14 +7,13 @@ from django.db.models import Sum
 from django.utils.datastructures import MultiValueDictKeyError
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,authenticate
-from django.http import HttpResponse
+from django.http import HttpResponse,Http404
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 import csv
-def home(request):
-    p=Expense.objects
-    return render(request,'expense/home.html',{'product':p})
+#Class Based Views
 class Signup(generic.CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('home')
@@ -25,12 +24,46 @@ class Signup(generic.CreateView):
         user = authenticate(username = username,password = password)
         login(self.request,user)
         return v
+class Delete(LoginRequiredMixin,generic.DeleteView):
+    model = Expense
+    template_name = 'expense/delete.html'
+    success_url = reverse_lazy('detail')
+    def get_object(self):
+        v = super(Delete,self).get_object()
+        if not v.expenser == self.request.user:
+            raise Http404
+        return v
+class Update(LoginRequiredMixin,generic.UpdateView):
+    model = Expense
+    fields = ['title','expense','category','receipt','payment']
+    template_name = 'expense/update.html'
+    success_url = reverse_lazy('detail')
+    def get_object(self):
+        v = super(Update,self).get_object()
+        if not v.expenser == self.request.user:
+            raise Http404
+        return v
+class Upbud(LoginRequiredMixin,generic.UpdateView):
+    model = Budget
+    fields = ['budget','source']
+    template_name = 'expense/upbud.html'
+    success_url = reverse_lazy('detail')
+    def get_object(self):
+        v = super(Upbud,self).get_object()
+        if not v.userin == self.request.user:
+            raise Http404
+        return v
+#Function Based Views
+def home(request):
+    p=Expense.objects
+    return render(request,'expense/home.html',{'product':p})
 @login_required()
 def add(request):
     if request.method=='POST':
         if request.POST['title'] and request.POST['expense'] and request.POST['category']  and request.POST['pay']:
             try:
-                im=request.FILES['receipt']
+                if request.FILES.get('receipt'):
+                    im=request.FILES['receipt']
             except MultiValueDictKeyError:
                 return render(request,'expense/add.html',{'error':'All fields are required'})
             exp=Expense()
@@ -39,8 +72,10 @@ def add(request):
             exp.payment=request.POST['pay']
             exp.category=request.POST['category']
             exp.dot=timezone.datetime.now()
+            if request.FILES.get('receipt'):
+                exp.receipt = request.FILES['receipt']
+
             exp.expenser=request.user
-            exp.receipt=request.FILES['receipt']
             exp.save()
             return redirect('detail')
         else:

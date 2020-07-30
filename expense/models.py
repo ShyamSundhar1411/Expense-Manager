@@ -12,7 +12,6 @@ class Expense(models.Model):
     payment=models.CharField(max_length=100,default='cash')
     def dot_pretty(self):
         return self.dot.strftime('%b %e %Y')
-
     def __str__(self):
         return self.title
 class Budget(models.Model):
