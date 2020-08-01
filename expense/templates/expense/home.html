@@ -11,8 +11,8 @@
 <br/>
 <br/>
 {% if user.is_authenticated %}
-<div id="carouselExampleIndicators" class="carousel slide img-fluid" data-ride="carousel">
-  <ol class="carousel-indicators">
+<div id="carouselExampleIndicators" class="carousel slide img-fluid border border-dark" data-ride="carousel">
+  <ol class="carousel-indicators ">
     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
     <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
     <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
@@ -42,7 +42,7 @@
 <div class = 'container'>
   <div class="row mb-2">
     <div class="col-md-6">
-      <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative bg-white">
+      <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative bg-white card border-primary mb-3">
         <div class="col p-4 d-flex flex-column position-static">
           <strong class="d-inline-block mb-2 text-primary">Expense</strong>
           <h3 class="mb-0">Add Expense</h3>
@@ -55,7 +55,7 @@
         </div>
       </div>
       <div class="col-md-6">
-        <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative bg-white">
+        <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative bg-white card border-success mb-3">
           <div class="col p-4 d-flex flex-column position-static">
             <strong class="d-inline-block mb-2 text-success">Budget</strong>
             <h3 class="mb-0">Add Budget</h3>
@@ -71,7 +71,7 @@
     </div>
 
     {% else %}
-    <div id="carouselExampleIndicators" class="carousel slide img-fluid" data-ride="carousel">
+    <div id="carouselExampleIndicators" class="carousel slide img-fluid border border-dark" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -130,4 +130,4 @@
           </div>
           {% endif %}
         </div>
-{% endblock %}
+        {% endblock %}
