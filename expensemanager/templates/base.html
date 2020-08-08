@@ -101,6 +101,24 @@ width: 7px;
 height: 7px;
 border-radius: 75%;
 }
+ #ir:hover{
+   color:blue !important;
+ }
+ #op:hover{
+   color:red !important;
+ }
+ #ir{
+   text-decoration: none !important;
+ }
+ #op{
+   text-decoration:none !important;
+ }
+ #pl{
+   text-decoration:none !important;
+ }
+ #pl:hover{
+   color:green !important;
+ }
   </style>
   <link href="album.css" rel="stylesheet">
 </head>
@@ -147,8 +165,13 @@ border-radius: 75%;
 
   <footer class="text-muted">
     <div class="container text-center">
-      <p class='text-body'><a href = "{% url 'home' %}" id = 'ab' style = 'color:black;' class = 'text-muted'>© Code Busters {% now "Y" %}</a></p>
-        <p class='text-body'><a href = "{% url 'about' %}" id = 'ab' style = 'color:black;'class = 'text-muted'>About</a></p>
+      <p class='text-body'><a href = "{% url 'home' %}" id = 'pl' style = 'color:black;' class = 'text-muted'>© Code Busters {% now "Y" %}</a></p>
+      <div class = 'container inline-text align-left'>
+        <p class='text-body'><a href = "{% url 'about' %}" id = 'ir' style = 'color:black;'class = 'text-muted'>About  </a>
+        <a href = "{% url 'addexpenseapi' %}" id = 'op' style = 'color:black;padding-left:50px;'class = 'text-muted' >API's</a></p>
+      </div>
+
+      </div>
     </footer>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

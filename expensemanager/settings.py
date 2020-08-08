@@ -25,7 +25,7 @@ SECRET_KEY = '_gsl0f5yct#yaj=h3-b#vr%o@$3h9t3rf!6!puqp3_f^+zyz5&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1','localhost']
 
 
 # Application definition
@@ -38,10 +38,22 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'expense',
+    'api',
     'mathfilters',
-    'widget_tweaks'
+    'widget_tweaks',
+    'rest_framework',
+    'rest_framework.authtoken',
+
 
 ]
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+
+    ]
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
