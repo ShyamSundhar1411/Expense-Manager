@@ -1,1 +1,16 @@
-curl -X "POST" http://127.0.0.1:8000/api/signup -H 'Content-Type: application/json;' -d '{"username":"theuser","password1":"django1234"}'
+Sign-Up and getting tokens :
+Macos Terminal :curl -X POST http://127.0.0.1:8000/api/signup --header "Content-Type:application/json" --header --data '{"username":"shyam","password":"django1234"}'
+
+Command Prompt : curl -X POST http://127.0.0.1:8000/api/login -H 'Content-Type:application/json' -d "{\"username\":\"shyam\",\"password\":\"django1234\"}
+
+Powershell : curl -X POST http://127.0.0.1:8000/api/signup -H 'Content-Type: application/json' -d '{\"username\":\"shyam\",\"password\":\"django1234\"}'
+ 
+Login or getting tokens :
+Macos Terminal :curl -X POST http://127.0.0.1:8000/api/login --header "Content-Type:application/json" --header --data '{"username":"shyam","password":"django1234"}'
+
+Command Prompt : curl -X POST http://127.0.0.1:8000/api/login -H 'Content-Type:application/json' -d "{\"username\":\"shyam\",\"password\":\"django1234\"}
+
+Powershell : curl -X POST http://127.0.0.1:8000/api/login -H 'Content-Type: application/json' -d '{\"username\":\"shyam\",\"password\":\"django1234\"}'
+  
+Authorisation :
+curl -H "Authorization: Token xxxxxxxxxxxxxx"  http:/127.0.0.1:8000/api/expense/add
