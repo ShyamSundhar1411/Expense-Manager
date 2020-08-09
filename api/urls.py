@@ -10,7 +10,6 @@ urlpatterns = [
     path('budget/add',views.AddBudget.as_view(),name = 'addbudgetapi'),
     path('budget/<int:pk>/update',views.UpdateDestroyBudget.as_view(),name = 'updatedestroybudgetapi'),
     #Auth
-    #path('signup',views.signup),
-    #path('login',views.login,name = 'loginapi')
-    path('api-auth',include('rest_framework.urls')),
+    path('signup',views.signup),
+    path('login',views.login)
 ]
