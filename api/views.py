@@ -43,7 +43,7 @@ class UpdateDestroyBudget(generics.RetrieveUpdateDestroyAPIView):
         user = self.request.user
         return Budget.objects.filter(userin = user)
 #Function Based Views
-'''@csrf_exempt
+@csrf_exempt
 def signup(request):
     if request.method == 'POST':
         try:
@@ -61,11 +61,10 @@ def login(request):
         data = JSONParser().parse(request)
         user = authenticate(request,username = data["username"],password = data['password'])
         if user is None:
-            return JsonResponse({'error':'Could not login. Please check username and password'},status = 400)
+            return JsonResponse({'error':'Could not login. Please check username or password'},status = 400)
         else:
             try:
                 token = Token.objects.get(user=user)
             except:
                 token = Token.objects.create(user=user)
             return JsonResponse({'token':str(token)},status = 200)
-'''
