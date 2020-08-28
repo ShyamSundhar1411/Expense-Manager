@@ -15,7 +15,7 @@
     {% if field.help_text %}<small class = 'text-muted'>{{ field.help_text|safe }}</small>{% endif %}
   </div>
   {% endfor %}
-  <p class = 'text-muted'>Having account already ?<a href = '{% url "login" %}' id = 'lo'> Login</a>
+  <p class = 'text-muted'>Having account already ?<a href = '{% url "login" %}' id = 'login'> Login</a>
   <br/>
     <button type = 'submit' class = 'btn btn-primary'>SignUp</button>
 </form>

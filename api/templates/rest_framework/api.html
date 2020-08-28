@@ -1,0 +1,23 @@
+{% extends "rest_framework/base.html" %}
+
+{% block branding %}
+    <span>
+      <a href = '{% url "home" %}' rel = "nofollow" class = 'navbar-brand'>
+        Expense Manager
+      </a>
+    </span>
+    {% if request.get_full_path == '/api/expense/add' %}
+    <span>
+      <a href = '{% url "addbudgetapi" %}' style = 'font-size:10%;' class = 'navbar-brand'>
+        BudgetAPI
+      </a>
+    {% else %}
+    <span>
+      <a href = '{% url "addexpenseapi" %}' style = 'font-size:10%;' class = 'navbar-brand'>
+        ExpenseAPI
+      </a>
+    {% endif %}
+    </span>
+
+
+{% endblock %}

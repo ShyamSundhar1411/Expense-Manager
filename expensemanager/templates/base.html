@@ -12,8 +12,6 @@
   <meta name="generator" content="Jekyll v4.0.1">
   <title>ExpMag{% now 'Y' %}</title>
 
-  <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/album/">
-
   <!-- Bootstrap core CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
   <link href='{% static "open-iconic/font/css/open-iconic-bootstrap.css" %}' rel='stylesheet'>
@@ -22,7 +20,6 @@
   <link rel="apple-touch-icon" href="{% static 'pay.png' %}" sizes="180x180">
   <link rel="icon" href="{% static 'pay.png' %}" sizes="32x32" type="image/png">
   <link rel="icon" href="{% static 'pay.png' %}" sizes="16x16" type="image/png">
-  <link rel="manifest" href="/docs/4.5/assets/img/favicons/manifest.json">
   <link rel="mask-icon" href="{% static 'pay.png' %}" color="#563d7c">
   <meta name="msapplication-config" content="/docs/4.5/assets/img/favicons/browserconfig.xml">
   <meta name="theme-color" content="#563d7c">
@@ -38,9 +35,10 @@
     user-select: none;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 468px) {
     .bd-placeholder-img-lg {
       font-size: 3.5rem;
+
     }
   }
   </style>
@@ -51,13 +49,6 @@
     background-size: contain;
     font-family: 'Galada', cursive;
   }
-  #lo{
-    color:rgba(0,0,0,1);
-    text-decoration: none;
-  }
-  #lo:hover {
-    color:green;
-  }
   .navbar-nav .nav-link:hover{
     color:green !important;
   }
@@ -65,68 +56,66 @@
     font-weight:400;
     color:rgba(0,0,0,0.5) !important;
   }
-  #k{
-    color:rgba(0,0,0,1) !important;
-    text-decoration: none;
-  }
-  #k:hover{
-    color:blue !important;
-  }
-  #ab{
-    color:black !important;
-    text-decoration: none;
-  }
-  #ab:hover{
-    color:green !important;
-    text-decoration: none;
-  }
-  #te:hover{
-    color:blue !important;
-  }
-  #te{
-    color:black;
-    text-decoration: none;
-  }
-  .carousel-item{
-    height: 400px !important;
-  }
-  .carousel-item img{
-    height: 400px !important;
-  }
-  #r{
-    text-decoration: none;
-  }
+
   #carouselExampleIndicators li {
-width: 7px;
-height: 7px;
-border-radius: 75%;
-}
- #ir:hover{
-   color:blue !important;
- }
- #op:hover{
-   color:red !important;
- }
- #ir{
-   text-decoration: none !important;
- }
- #op{
-   text-decoration:none !important;
- }
- #pl{
-   text-decoration:none !important;
- }
- #pl:hover{
-   color:green !important;
- }
+    width: 7px;
+    height: 7px;
+    border-radius: 75%;
+  }
+  #exp:hover{
+    color:green !important;
+  }
+  #codebus{
+    color:black;
+    text-decoration:none;
+  }
+  #codebus:hover{
+    color: green !important;
+  }
+  #abt{
+    color:black;
+    text-decoration:none;
+    padding-right:50px;
+  }
+  #abt:hover{
+    color:red !important;
+  }
+  #api{
+    color:black;
+    padding-left:50px;
+    text-decoration:none;
+  }
+  #api:hover{
+    color:blue !important;
+  }
+  #expi{
+    color:black;
+    text-decoration:none;
+  }
+  #expi:hover{
+    color:blue !important;
+  }
+  #login{
+    color:black;
+    text-decoration:none;
+  }
+  #login:hover{
+    color:green !important;
+  }
+  #signup{
+    color:black;
+    text-decoration:none;
+  }
+  #signup:hover{
+    color:blue !important;
+  }
   </style>
-  <link href="album.css" rel="stylesheet">
 </head>
 <body >
   <header>
     <div class = 'container'>
       <nav class="navbar navbar-expand-lg navbar-light " style = 'color:white' id = 'topnav'>
-        <a class="navbar-brand" href='{% url "home" %}' id = 'lo'>
+        <a class="navbar-brand" href='{% url "home" %}' id = 'exp'>
           <img src ='{% static "pay.png" %}' class='d-inline-block align-top-right' height=50 width=50/>
           Expense Manager
         </a>
@@ -165,11 +154,11 @@ border-radius: 75%;
 
   <footer class="text-muted">
     <div class="container text-center">
-      <p class='text-body'><a href = "{% url 'home' %}" id = 'pl' style = 'color:black;' class = 'text-muted'>© Code Busters {% now "Y" %}</a></p>
-      <div class = 'container inline-text align-left'>
-        <p class='text-body'><a href = "{% url 'about' %}" id = 'ir' style = 'color:black;'class = 'text-muted'>About  </a>
-        <a href = "{% url 'addexpenseapi' %}" id = 'op' style = 'color:black;padding-left:50px;'class = 'text-muted' >API's</a></p>
-      </div>
+      <p class='text-body'>
+          <a href = "{% url 'about' %}" id = 'abt' class = 'text-muted'>About  </a>
+          <a href = "{% url 'home' %}" id = 'codebus'  class = 'text-muted'>© Code Busters {% now "Y" %}</a>
+          <a href = "{% url 'addexpenseapi' %}" id = 'api' class = 'text-muted' >API's</a></p>
+        </div>
 
       </div>
     </footer>
