@@ -24,7 +24,7 @@
   </div>
 </div>
 {% for bud in bud.all %}
-<div class='container ' style='position:absolute;padding:0px 0px 0px 800px;'>
+<div class='container' style='position:absolute;padding:0px 0px 0px 800px;'>
   <div class="card card border-success mb-3" id = 'test'>
     <div class="card-body">
       <h1 class="card-title">Budget</h1>
@@ -33,9 +33,9 @@
         <p class="card-text"><h2>$ {{sue.are|sub:result.tot}}</h2>
       </div>
       <div class='col-12'>
-        <p class="card-text"><h4>Source: {{bud.source}}</h4></p>
+        <h4 class = 'card-text'>Source: {{bud.source}}</h4>
       </div>
-        <p class='card-text'><h5 style='font-size:15px;color:light;'><span class="oi oi-clock" style='padding:10px'></span> Last Updated : {{bud.dot_pretty}}</h5></p>
+        <h5 class = 'card-text' style='font-size:15px;color:light;'><span class="oi oi-clock" style='padding:10px'></span> Last Updated : {{bud.dot_pretty}}</h5></p>
         <a class = 'btn btn-primary' style = 'width:30%;' href ='{% url "budup" bud.id %}'>Update</a>
       </div>
     </div>
