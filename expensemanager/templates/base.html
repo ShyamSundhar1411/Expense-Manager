@@ -51,13 +51,6 @@
     background-size: contain;
     font-family: 'Galada', cursive;
   }
-  #lo{
-    color:rgba(0,0,0,1);
-    text-decoration: none;
-  }
-  #lo:hover {
-    color:green;
-  }
   .navbar-nav .nav-link:hover{
     color:green !important;
   }
@@ -65,59 +58,63 @@
     font-weight:400;
     color:rgba(0,0,0,0.5) !important;
   }
-  #k{
-    color:rgba(0,0,0,1) !important;
-    text-decoration: none;
-  }
-  #k:hover{
-    color:blue !important;
-  }
-  #ab{
-    color:black !important;
-    text-decoration: none;
-  }
-  #ab:hover{
-    color:green !important;
-    text-decoration: none;
-  }
-  #te:hover{
-    color:blue !important;
-  }
-  #te{
-    color:black;
-    text-decoration: none;
-  }
   .carousel-item{
     height: 400px !important;
   }
   .carousel-item img{
     height: 400px !important;
   }
-  #r{
-    text-decoration: none;
-  }
   #carouselExampleIndicators li {
 width: 7px;
 height: 7px;
 border-radius: 75%;
 }
- #ir:hover{
-   color:blue !important;
+#exp:hover{
+   color:green !important;
  }
- #op:hover{
+ #codebus{
+   color:black;
+   text-decoration:none;
+ }
+ #codebus:hover{
+   color: green !important;
+ }
+ #abt{
+   color:black;
+   text-decoration:none;
+   padding-right:50px;
+ }
+ #abt:hover{
    color:red !important;
  }
- #ir{
-   text-decoration: none !important;
+ #api{
+   color:black;
+   padding-left:50px;
+   text-decoration:none;
  }
- #op{
-   text-decoration:none !important;
+ #api:hover{
+   color:blue !important;
  }
- #pl{
-   text-decoration:none !important;
+ #expi{
+   color:black;
+   text-decoration:none;
  }
- #pl:hover{
+ #expi:hover{
+   color:blue !important;
+ }
+ #login{
+   color:black;
+   text-decoration:none;
+ }
+ #login:hover{
    color:green !important;
+ }
+ #signup{
+   color:black;
+   text-decoration:none;
+ }
+ #signup:hover{
+   color:blue !important;
  }
   </style>
   <link href="album.css" rel="stylesheet">
@@ -165,15 +162,15 @@ border-radius: 75%;
 
   <footer class="text-muted">
     <div class="container text-center">
-      <p class='text-body'><a href = "{% url 'home' %}" id = 'pl' style = 'color:black;' class = 'text-muted'>© Code Busters {% now "Y" %}</a></p>
-      <div class = 'container inline-text align-left'>
-        <p class='text-body'><a href = "{% url 'about' %}" id = 'ir' style = 'color:black;'class = 'text-muted'>About  </a>
-        <a href = "{% url 'addexpenseapi' %}" id = 'op' style = 'color:black;padding-left:50px;'class = 'text-muted' >API's</a></p>
-      </div>
+      <p class='text-body'>
+          <a href = "{% url 'about' %}" id = 'abt' class = 'text-muted'>About  </a>
+          <a href = "{% url 'home' %}" id = 'codebus'  class = 'text-muted'>© Code Busters {% now "Y" %}</a>
+          <a href = "{% url 'addexpenseapi' %}" id = 'api' class = 'text-muted' >API's</a></p>
+        </div>
 
       </div>
     </footer>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-    </html>
+  </html>
