@@ -70,11 +70,7 @@ ROOT_URLCONF = 'expensemanager.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-<<<<<<< HEAD
         'DIRS': ['expensemanager/templates', 'rest_framework/templates'],
-=======
-        'DIRS': ['expensemanager/templates','rest_framework/templates'],
->>>>>>> da1318975b47205ebccca34a39a41d386a7d6455
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
