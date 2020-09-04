@@ -39,12 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'expense',
     'api',
+    #Modules and Frameworks
     'mathfilters',
     'widget_tweaks',
     'rest_framework',
-    'rest_framework.authtoken',
-
-
+    'rest_framework.authtoken'
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -70,7 +69,7 @@ ROOT_URLCONF = 'expensemanager.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['expensemanager/templates', 'rest_framework/templates'],
+        'DIRS': ['expensemanager/templates', 'rest_framework/templates','allauth/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -142,3 +141,28 @@ STATIC_URL = '/static/'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
+#Social Authentications
+AUTHENTICATION_BACKENDS = {
+    #Default Auth_Backend
+    'django.contrib.auth.backends.ModelBackend',
+    #Social Account
+    'allauth.account.auth_backends.AuthenticationBackend'
+}
+SOCIALACCOUNT_PROVIDERS = {
+    'google':{
+        'APP':{
+        'client_id': '325531148519-fdqce5j0rk78ijha3irsqj961mdut7em.apps.googleusercontent.com',
+        'secret':'wX7X0WN1-v_S8Pr8tDnOt5kN',
+        'key':'',
+        }
+    }
+}
+SITE_ID = 1
+#Email Backends
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'clashwithchiefrpjyt@gmail.com'
+EMAIL_HOST_PASSWORD = 'pjtioxzccqphhddc'
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = 'CodeBusters Team <noreply@expensemanager.com>'

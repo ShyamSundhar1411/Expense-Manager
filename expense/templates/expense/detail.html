@@ -24,11 +24,7 @@
   </div>
 </div>
 {% for bud in bud.all %}
-<<<<<<< HEAD
-<div class='container ' style='position:absolute;padding:0px 0px 0px 800px;'>
-=======
 <div class='container' style='position:absolute;padding:0px 0px 0px 800px;'>
->>>>>>> da1318975b47205ebccca34a39a41d386a7d6455
   <div class="card card border-success mb-3" id = 'test'>
     <div class="card-body">
       <h1 class="card-title">Budget</h1>
@@ -75,7 +71,7 @@
   </div>
   {% endfor %}
   <div class='container'>
-    <button class = 'btn btn-primary'><a href ='{% url "expense" %} ' style = 'color:white' id = 'r'>Add Expense</a></button>
+    <button class = 'btn btn-primary'><a href ='{% url "expense" %} ' style = 'color:white;text-decoration:none;' id = 'r'>Add Expense</a></button>
   </div>
 
   {% endblock %}
