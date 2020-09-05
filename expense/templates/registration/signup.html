@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
 {% load widget_tweaks %}
 <br/>
 <h1>Signup</h1>
@@ -15,7 +16,10 @@
     {% if field.help_text %}<small class = 'text-muted'>{{ field.help_text|safe }}</small>{% endif %}
   </div>
   {% endfor %}
-  <p class = 'text-muted'>Having account already ?<a href = '{% url "login" %}' id = 'login'> Login</a>
+  <p class = 'text-muted'>Having account already ?<a href = '{% url "login" %}' id = 'login'> Login</a> or Use Social Platforms
+    <br/>
+    <p><a href="{% url 'social:begin' 'google-oauth2' %}"><img src = '{% static "Google.png" %}' style = 'height:20px;width:20px;'</a>
+      <a href = "{% url 'social:begin' 'github' %}" style = 'padding-left:10px;'><img class = 'img-rounded' src = '{% static "Github.webp" %}' style = 'height:25px;width:25px;'></a></p>
   <br/>
     <button type = 'submit' class = 'btn btn-primary'>SignUp</button>
 </form>

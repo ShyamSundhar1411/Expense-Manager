@@ -10,10 +10,12 @@ from django.contrib.auth import login,authenticate
 from django.http import HttpResponse,Http404
 from django.urls import reverse_lazy
 from django.views import generic
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import PasswordChangeForm,PasswordResetForm
+from expense.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 import csv
 #Class Based Views
+#Authentication
 class Signup(generic.CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('home')
@@ -24,6 +26,15 @@ class Signup(generic.CreateView):
         user = authenticate(username = username,password = password)
         login(self.request,user)
         return v
+'''class PasswordReset(generic.FormView):
+    form_class = PasswordResetForm
+    success_url = reverse_lazy('passwordresetdone')
+    template_name = 'registration/passwordreset.html'
+class PasswordResetDoneView(generic.TemplateView):
+    template_name = 'registration/passwordresetdone.html'
+class PasswordResetCompleteView(generic.TemplateView):
+    template_name = 'registration/passwordresetcomplete.html'''
+#CRUD
 class Delete(LoginRequiredMixin,generic.DeleteView):
     model = Expense
     template_name = 'expense/delete.html'

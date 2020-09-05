@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'mathfilters',
     'widget_tweaks',
     'rest_framework',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'social_django',
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -62,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'expensemanager.urls'
@@ -69,7 +71,7 @@ ROOT_URLCONF = 'expensemanager.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['expensemanager/templates', 'rest_framework/templates','allauth/templates'],
+        'DIRS': ['expensemanager/templates', 'rest_framework/templates',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,6 +79,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
             ],
         },
     },
@@ -138,7 +141,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL  = '/media/'
 STATIC_ROOT=os.path.join(BASE_DIR,'static')
 STATIC_URL = '/static/'
-LOGIN_URL = 'login'
+LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 #Social Authentications
@@ -146,7 +149,9 @@ AUTHENTICATION_BACKENDS = {
     #Default Auth_Backend
     'django.contrib.auth.backends.ModelBackend',
     #Social Account
-    'allauth.account.auth_backends.AuthenticationBackend'
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.github.GithubOAuth2',
+
 }
 SOCIALACCOUNT_PROVIDERS = {
     'google':{
@@ -157,10 +162,27 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+#Google
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '325531148519-fdqce5j0rk78ijha3irsqj961mdut7em.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'wX7X0WN1-v_S8Pr8tDnOt5kN'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'https://www.googleapis.com/auth/userinfo.profile',
+]
+
+#GitHub
+SOCIAL_AUTH_GITHUB_KEY = '6f3b7a0fd8193deae27f'
+SOCIAL_AUTH_GITHUB_SECRET = 'be5c27a2077ff96dd19988e01edc7538c372f1cf'
+SOCIAL_AUTH_GITHUB_SCOPE = [
+        'user',
+        'read:user'
+]
+
 SITE_ID = 1
+
 #Email Backends
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
+EMAIL_USER_SSL = False
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'clashwithchiefrpjyt@gmail.com'
 EMAIL_HOST_PASSWORD = 'pjtioxzccqphhddc'
