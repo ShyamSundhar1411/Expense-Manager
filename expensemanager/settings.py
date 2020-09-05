@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-
+from .secret import *
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '_gsl0f5yct#yaj=h3-b#vr%o@$3h9t3rf!6!puqp3_f^+zyz5&'
+SECRET_KEY = SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -155,28 +155,20 @@ AUTHENTICATION_BACKENDS = {
 
 }
 #Google
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '325531148519-fdqce5j0rk78ijha3irsqj961mdut7em.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'wX7X0WN1-v_S8Pr8tDnOt5kN'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
-    'https://www.googleapis.com/auth/userinfo.profile',
-    'https://www.googleapis.com/auth/user.birthday.read',
-    'https://www.googleapis.com/auth/userinfo.email',
-
-]
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = SOCIAL_AUTH_GOOGLE_OAUTH2_KEY
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE
 #GitHub
-SOCIAL_AUTH_GITHUB_KEY = '6f3b7a0fd8193deae27f'
-SOCIAL_AUTH_GITHUB_SECRET = 'be5c27a2077ff96dd19988e01edc7538c372f1cf'
-SOCIAL_AUTH_GITHUB_SCOPE = [
-        'user',
-        'read:user'
-]
-SITE_ID = 1
+SOCIAL_AUTH_GITHUB_KEY = SOCIAL_AUTH_GITHUB_KEY
+SOCIAL_AUTH_GITHUB_SECRET = SOCIAL_AUTH_GITHUB_SECRET
+SOCIAL_AUTH_GITHUB_SCOPE = SOCIAL_AUTH_GITHUB_SCOPE
+SITE_ID = SITE_ID
 #Email Backends
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_TLS = True
-EMAIL_USER_SSL = False
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'clashwithchiefrpjyt@gmail.com'
-EMAIL_HOST_PASSWORD = 'pjtioxzccqphhddc'
-EMAIL_PORT = 587
-DEFAULT_FROM_EMAIL = 'CodeBusters Team <noreply@expensemanager.com>'
+EMAIL_BACKEND = EMAIL_BACKEND
+EMAIL_USE_TLS = EMAIL_USE_TLS
+EMAIL_USER_SSL = EMAIL_USER_SSL
+EMAIL_HOST = EMAIL_HOST
+EMAIL_HOST_USER = EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
+EMAIL_PORT = EMAIL_PORT
+DEFAULT_FROM_EMAIL = DEFAULT_FROM_EMAIL
