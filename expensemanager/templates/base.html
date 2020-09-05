@@ -109,6 +109,13 @@ border-radius: 75%;
  #signup:hover{
    color:blue !important;
  }
+ #reset{
+   color:black;
+   text-decoration:none;
+ }
+ #reset:hover{
+   color:red !important;
+ }
   </style>
 </head>
 <body >
@@ -125,7 +132,8 @@ border-radius: 75%;
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
-            <a class='nav-item nav-link' href="{% url 'detail' %}">Your Account</a>
+            <a class='nav-item nav-link' href="{% url 'detail' %}">Dashboard</a>
+            <a class='nav-item nav-link' href="{% url 'profile' %}">Profile</a>
             <a class='nav-item nav-link' href='javascript:{document.getElementById("log1").submit()}'>Logout </a>
             <form id ='log1' method='POST' action='{% url "logout" %}'>
 

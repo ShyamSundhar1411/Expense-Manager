@@ -31,20 +31,23 @@ ALLOWED_HOSTS = ['127.0.0.1','localhost']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    #Apps
+    'expense',
+    'api',
+    #Django Authentication Services
     'django.contrib.auth',
+    'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'expense',
-    'api',
     #Modules and Frameworks
     'mathfilters',
     'widget_tweaks',
     'rest_framework',
     'rest_framework.authtoken',
     'social_django',
+
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -116,8 +119,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -141,7 +142,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL  = '/media/'
 STATIC_ROOT=os.path.join(BASE_DIR,'static')
 STATIC_URL = '/static/'
-LOGIN_URL = '/login/'
+LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 #Social Authentications
@@ -153,22 +154,15 @@ AUTHENTICATION_BACKENDS = {
     'social_core.backends.github.GithubOAuth2',
 
 }
-SOCIALACCOUNT_PROVIDERS = {
-    'google':{
-        'APP':{
-        'client_id': '325531148519-fdqce5j0rk78ijha3irsqj961mdut7em.apps.googleusercontent.com',
-        'secret':'wX7X0WN1-v_S8Pr8tDnOt5kN',
-        'key':'',
-        }
-    }
-}
 #Google
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '325531148519-fdqce5j0rk78ijha3irsqj961mdut7em.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'wX7X0WN1-v_S8Pr8tDnOt5kN'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
     'https://www.googleapis.com/auth/userinfo.profile',
-]
+    'https://www.googleapis.com/auth/user.birthday.read',
+    'https://www.googleapis.com/auth/userinfo.email',
 
+]
 #GitHub
 SOCIAL_AUTH_GITHUB_KEY = '6f3b7a0fd8193deae27f'
 SOCIAL_AUTH_GITHUB_SECRET = 'be5c27a2077ff96dd19988e01edc7538c372f1cf'
@@ -176,9 +170,7 @@ SOCIAL_AUTH_GITHUB_SCOPE = [
         'user',
         'read:user'
 ]
-
 SITE_ID = 1
-
 #Email Backends
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True

@@ -5,7 +5,7 @@
 <br/>
 <h1>Signup</h1>
 <hr/>
-<form method = 'POST'>
+<form method = 'POST' enctype = 'multipart/form-data'>
   {% csrf_token %}
   {% if form.non_field_errors %}<div class = 'alert alert-danger'>{{ form.non_field_errors }}</div>{% endif %}
   {% for field in form %}
