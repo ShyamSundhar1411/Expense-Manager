@@ -14,6 +14,4 @@ urlpatterns = [
     path('<int:pk>/delete',views.Delete.as_view(),name = 'delexp'),
     path('<int:pk>/update',views.Update.as_view(),name = 'update'),
     path('<int:pk>/budup',views.Upbud.as_view(),name = 'budup'),
-
-
 ]

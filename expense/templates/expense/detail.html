@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load mathfilters %}
-<h1>Expenses</h1>
+<h1>{{user.username}}'s Manager</h1>
 <hr/>
 <div style = 'display:flex;'>
   <div class="col-md-2 ">
@@ -23,8 +23,9 @@
     </form>
   </div>
 </div>
+<br/>
 {% for bud in bud.all %}
-<div class='container' style='position:absolute;padding:0px 0px 0px 800px;'>
+<div class='container' style='position:absolute;padding-left:800px;width:100%;margin:auto;'>
   <div class="card card border-success mb-3" id = 'test'>
     <div class="card-body">
       <h1 class="card-title">Budget</h1>
@@ -36,7 +37,7 @@
         <h4 class = 'card-text'>Source: {{bud.source}}</h4>
       </div>
         <h5 class = 'card-text' style='font-size:15px;color:light;'><span class="oi oi-clock" style='padding:10px'></span> Last Updated : {{bud.dot_pretty}}</h5></p>
-        <a class = 'btn btn-primary' style = 'width:30%;' href ='{% url "budup" bud.id %}'>Update</a>
+        <a class = 'btn btn-primary' style = 'width:60%;' href ='{% url "budup" bud.id %}'>Update</a>
       </div>
     </div>
   </div>
@@ -45,6 +46,7 @@
 
 <br/>
 <br/>
+<h1>Expense{{hey.count|pluralize}}</h1>
 {% for expense in hey.all %}
 <br/>
 <div class='container'>
@@ -56,14 +58,17 @@
         <p class="card-text mb-auto" style = 'font-size:20px;'>Expense: $ {{expense.expense}}</p>
         <p class="card-text mb-auto" style = 'font-size:20px;'>Category: {{expense.category}}</p>
         <p class="card-text mb-auto" style = 'font-size:20px;'>Paid Through: {{expense.payment}}</p>
+        {% if expense.receipt %}
+        <p class="card-text mb-auto" style = 'font-size:20px;'><a href = "{{expense.receipt.url}}" id = 'signup'>View Receipt</a></p>
+        {% endif %}
         <div class = 'inline-block'>
-          <a class = 'btn btn-danger' style = 'width:40%;' href ='{% url "delexp" expense.id %}'>Delete</a>
-          <a class = 'btn btn-primary' style = 'width:40%;' href ='{% url "update" expense.id %}'>Update</a>
+          <a class = 'btn btn-danger' style = 'width:47%;' href ='{% url "delexp" expense.id %}'>Delete</a>
+          <a class = 'btn btn-primary' style = 'width:47%;' href ='{% url "update" expense.id %}'>Update</a>
         </div>
       </div>
       {% if expense.receipt %}
       <div class="col-auto d-none d-lg-block ">
-        <img class="bd-placeholder-img" src = "{{expense.receipt.url}}" width="200" height="250"  aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c">
+        <img class="bd-placeholder-img" src = "{{expense.receipt.url}}" width="200" height="270"  aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c">
         </div>
         {% endif %}
       </div>
