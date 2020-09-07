@@ -14,36 +14,37 @@
     </form>
   </div>
   <br/>
-  <div class="col-md-4 ">
-    <form action = "{% url 'report' %}">
-      <select name = 'repo'>
-        <option value = 'Expense'>Expense Reports</option>
-        <option value = 'Budget'>Budget Reports</option>
-      </select> <input type = 'submit' value = 'Generate Reports' class = 'btn btn-primary'/>
-    </form>
-  </div>
 </div>
 <br/>
-{% for bud in bud.all %}
-<div class='container' style='position:absolute;padding-left:800px;width:100%;margin:auto;'>
-  <div class="card card border-success mb-3" id = 'test'>
-    <div class="card-body">
-      <h1 class="card-title">Budget</h1>
-      <hr/>
-      <div class='col-12'>
-        <p class="card-text"><h2>$ {{sue.are|sub:result.tot}}</h2>
-      </div>
-      <div class='col-12'>
-        <h4 class = 'card-text'>Source: {{bud.source}}</h4>
-      </div>
-        <h5 class = 'card-text' style='font-size:15px;color:light;'><span class="oi oi-clock" style='padding:10px'></span> Last Updated : {{bud.dot_pretty}}</h5></p>
-        <a class = 'btn btn-primary' style = 'width:60%;' href ='{% url "budup" bud.id %}'>Update</a>
+<div class = 'container'>
+<h1>Budget{{bud.count|pluralize}}</h1>
+<div class='container d-inline-block'>
+  <div class = 'row '>
+    {% for bud in bud.all %}
+    <div class = 'col-lg-4 col-md-6'>
+      <div class="card card border-success mb-3">
+        <div class="card-body">
+          <h3 class="card-title">Budget-{{bud.dot|date:"F d"}}</h3>
+          <hr/>
+          <div class='col-12'>
+            <p class="card-text"><h2>$ {{bud.budget}}</h2>
+          </div>
+        <div class='col-12'>
+          <h4 class = 'card-text'>Source: {{bud.source}}</h4>
+        </div>
+          <h5 class = 'card-text' style='font-size:15px;color:light;'><span class="oi oi-clock" style='padding:10px'></span> Last Updated : {{bud.dot_pretty}}</h5></p>
+          <div class = 'inline-block'>
+            <a class = 'btn btn-primary' style = 'width:auto;' href ='{% url "budup" bud.id %}'>Update</a>
+            <a class = 'btn btn-danger' style = 'width:auto;' href ='{% url "buddel" bud.id %}'>Delete</a>
+          </div>
+        </div>
       </div>
     </div>
+    {% endfor %}
   </div>
-{% endfor %}
+</div>
 
-
+<a href ='{% url "budget" %}' class = 'btn btn-primary' style = 'color:white;text-decoration:none;' id = 'r'>Add Budget</a>
 <br/>
 <br/>
 <h1>Expense{{hey.count|pluralize}}</h1>
@@ -75,8 +76,9 @@
     </div>
   </div>
   {% endfor %}
-  <div class='container'>
-    <button class = 'btn btn-primary'><a href ='{% url "expense" %} ' style = 'color:white;text-decoration:none;' id = 'r'>Add Expense</a></button>
+  <div class='container d-inline-block'>
+    <a href ='{% url "expense" %} ' class = 'btn btn-primary' style = 'color:white;text-decoration:none;' >Add Expense</a>
+    <a href ='{% url "analysis" %} ' class = 'btn btn-primary' style = 'color:white;text-decoration:none;'>View Analysis</a>
   </div>
-
+</div>
   {% endblock %}

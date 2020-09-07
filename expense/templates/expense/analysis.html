@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content  %}
+{% load mathfilters %}
+<div class='container'>
+  <h1>Analysis</h1>
+  <hr/>
+  <div class="col-md-4 ">
+    <form action = "{% url 'report' %}">
+      <select name = 'repo'>
+        <option value = 'Expense'>Expense Reports</option>
+        <option value = 'Budget'>Budget Reports</option>
+      </select> <input type = 'submit' value = 'Generate Reports' class = 'btn btn-primary'/>
+    </form>
+  </div>
+<br/>
+  <div class = 'row'>
+    <div class = 'col-lg-4 col-md-6'>
+      <div class="card card border-success mb-3" >
+        <div class="card-body">
+          <h3 class="card-title">Total Budget :</h3>
+          <h3 style = 'font-size:40px'>$ {{sue.are|sub:result.tot}}</h3>
+        </div>
+      </div>
+    </div>
+    <div class = 'col-lg-4 col-md-6'>
+      <div class="card card border-success mb-3" >
+        <div class="card-body">
+          <h3 class="card-title" >Total Expense{{hey.count|pluralize}} :</h3>
+          <h3 style = 'font-size:40px'>$ {{result.tot}}</h3>
+        </div>
+      </div>
+    </div>
+    <div class = 'col-lg-4 col-md-6'>
+      <div class="card card border-success mb-3" >
+        <div class="card-body">
+          <h3 class="card-title">Total Transaction{{hey.count|pluralize}}:</h3>
+          <h3 style = 'font-size:40px'>{{hey.count}}</h3>
+        </div>
+      </div>
+    </div>
+  <div class='container d-inline-block'>
+    <a href ='{% url "detail" %} ' class = 'btn btn-primary' style = 'color:white;text-decoration:none;'>Dashboard</a>
+    <a href ='{% url "expense" %} ' class = 'btn btn-primary' style = 'color:white;text-decoration:none;' >Add Expense</a>
+    <a href ='{% url "budget" %} ' class = 'btn btn-primary' style = 'color:white;text-decoration:none;'>Add Budget</a>
+  </div>
+</div>
+
+  {% endblock%}

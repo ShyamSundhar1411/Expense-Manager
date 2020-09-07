@@ -16,7 +16,7 @@ class Expense(models.Model):
     def __str__(self):
         return self.title
 class Budget(models.Model):
-    budget=models.PositiveIntegerField(default=0)
+    budget=models.IntegerField(default=0)
     dot=models.DateField(auto_now_add = True)
     source=models.CharField(max_length=50,default='Salary Income')
     userin=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE)

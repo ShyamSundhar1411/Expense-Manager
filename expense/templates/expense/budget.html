@@ -1,25 +1,26 @@
 {% extends 'base.html' %}
 {% block content %}
-<br/>
-<h1>Add Budget👇🏻</h1>
-<hr/>
-{% if error %}
-<h3 style='color:red;'>{{error}}</h3>
-{% elif wel %}
-<h3 style='color:green;'>{{wel}}</h3>
-{% endif %}
-<form method='POST' action="{% url 'budget' %}" enctype='multipart/form-data'>
-{% csrf_token %}
-Budget :
-<br/>
-<input type='number' name='budget' id='bud' min="0"/>
-<br/>
-Source:
-<br/>
-<input type='text' name='source' id='srca'/>
-<br/>
-<br/>
-<input class='btn btn-primary' type='submit' value='Add'/>
-
-</form>
+<div class = 'container'>
+  <br/>
+  <h1>Add Budget👇🏻</h1>
+  <hr/>
+  {% if error %}
+  <h3 style='color:red;'>{{error}}</h3>
+  {% elif wel %}
+  <h3 style='color:green;'>{{wel}}</h3>
+  {% endif %}
+  <form method='POST' action="{% url 'budget' %}" enctype='multipart/form-data'>
+    {% csrf_token %}
+    Budget :
+    <br/>
+    <input type='number' name='budget' id='bud' min="0"/>
+    <br/>
+    Source:
+    <br/>
+    <input type='text' name='source' id='srca'/>
+    <br/>
+    <br/>
+    <input class='btn btn-primary' type='submit' value='Add'/>
+  </form>
+</div>
 {% endblock %}
