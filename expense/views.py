@@ -55,10 +55,15 @@ class Upbud(LoginRequiredMixin,generic.UpdateView):
         if not v.userin == self.request.user:
             raise Http404
         return v
-class DelBud(generic.DeleteView):
+class DelBud(LoginRequiredMixin,generic.DeleteView):
     model = Budget
     template_name = 'expense/deletebudget.html'
     success_url = reverse_lazy('budget')
+    def get_object(self):
+        v = super(DelBud,self).get_object()
+        if not b.userin == self.request.user:
+            raise Http404
+        return v
 class Delete(LoginRequiredMixin,generic.DeleteView):
     model = Expense
     template_name = 'expense/delete.html'
@@ -70,8 +75,7 @@ class Delete(LoginRequiredMixin,generic.DeleteView):
         return v
 #Function Based Views
 def home(request):
-    p=Expense.objects
-    return render(request,'expense/home.html',{'product':p})
+    return render(request,'expense/home.html')
 @login_required()
 def add(request):
     if request.method=='POST':
@@ -89,7 +93,6 @@ def add(request):
             exp.dot=timezone.datetime.now()
             if request.FILES.get('receipt'):
                 exp.receipt = request.FILES['receipt']
-
             exp.expenser=request.user
             exp.save()
             return redirect('detail')
@@ -97,7 +100,7 @@ def add(request):
             return render(request,'expense/add.html',{'error':'All fields are required'})
     else:
         return render(request,'expense/add.html')
-@login_required
+@login_required()
 def budget(request):
     if request.method=='POST':
         if request.POST['budget']:
@@ -125,7 +128,7 @@ def detail(request):
         return render(request,'expense/detail.html',{'hey':w.order_by('-dot__month'),'bud':i})
     else:
         return render(request,'expense/detail.html',{'hey':w,'bud':i})
-
+@login_required()
 def analysis(request):
         w = Expense.objects.filter(expenser=request.user).order_by('-dot')
         z = Expense.objects.filter(expenser=request.user).aggregate(tot=Sum('expense'))

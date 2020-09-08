@@ -1,19 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class = 'container'>
-<h2>Edit Budget</h2>
-<form method = 'POST' enctype = 'multipart/form-data'>
-  {% csrf_token %}
-  {% load widget_tweaks %}
-  {% for field in form %}
-  <div class = 'form-group{% if field.errors %} alert alert-danger{% endif %}'>
-    {{field.errors}}
-    {{field.label_tag}}
-    {% render_field field class='form-control' %}
-  </div>
-  {% endfor %}
-  <button type = 'submit' class = 'btn btn-success'>Save</button>
-</form>
-<br/>
+  <h2>Edit Budget</h2>
+  <form method = 'POST' enctype = 'multipart/form-data'>
+    {% csrf_token %}
+    {% load widget_tweaks %}
+    {% for field in form %}
+    <div class = 'form-group{% if field.errors %} alert alert-danger{% endif %}'>
+      {{field.errors}}
+      {{field.label_tag}}
+      {% render_field field class='form-control' %}
+    </div>
+    {% endfor %}
+    <button type = 'submit' class = 'btn btn-success'>Save</button>
+  </form>
+  <br/>
 </div>
 {% endblock %}
