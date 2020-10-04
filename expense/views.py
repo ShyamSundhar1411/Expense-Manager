@@ -61,7 +61,7 @@ class DelBud(LoginRequiredMixin,generic.DeleteView):
     success_url = reverse_lazy('budget')
     def get_object(self):
         v = super(DelBud,self).get_object()
-        if not b.userin == self.request.user:
+        if not v.userin == self.request.user:
             raise Http404
         return v
 class Delete(LoginRequiredMixin,generic.DeleteView):
