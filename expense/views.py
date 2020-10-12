@@ -11,8 +11,8 @@ from django.contrib.auth import login,authenticate
 from django.http import HttpResponse,Http404
 from django.urls import reverse_lazy
 from django.views import generic
+from django.contrib.auth.forms import SetPasswordForm
 from .forms import UserCreationForm
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 import csv
 #Class Based Views
@@ -28,7 +28,7 @@ class Signup(generic.CreateView):
         login(self.request,user)
         return v
 #CRUD
-class Profile(generic.UpdateView):
+class Profile(LoginRequiredMixin,generic.UpdateView):
     model = User
     fields = ['username','email']
     success_url = reverse_lazy('profile')
@@ -134,7 +134,6 @@ def analysis(request):
         z = Expense.objects.filter(expenser=request.user).aggregate(tot=Sum('expense'))
         i = Budget.objects.filter(userin=request.user)
         p = Budget.objects.filter(userin=request.user).aggregate(are=Sum('budget'))
-        m = 100
         if p['are'] is None:
                 return render(request,'expense/home.html',{'hey':w,'bud':i,'result':z,'error':'*Not enough Funds. Add Budget to Continue. Remember Your initial expense value will be deducted from the new Budget amount. Your Account is locked until that*'})
         elif z['tot'] is None:
@@ -143,8 +142,7 @@ def analysis(request):
             if z['tot']>p['are']:
                 return render(request,'expense/home.html',{'hey':w,'bud':i,'result':z,'error':'*Not enough Funds. Add Budget to Continue. Remember Your initial expense value will be deducted from the new Budget amount. Your Account is locked until that*'})
             else:
-                return render(request,'expense/analysis.html',{'hey':w,'bud':i,'result':z,'sue':p,'count':m})
-
+                return render(request,'expense/analysis.html',{'hey':w,'bud':i,'result':z,'sue':p})
 def about(request):
     return render(request,'expense/about.html')
 def report(request):
