@@ -7,12 +7,12 @@
     </span>
     {% if request.get_full_path == '/api/expense/add' %}
     <span>
-      <a href = '{% url "addbudgetapi" %}' style = 'font-size:2-%;' class = 'navbar-brand'>
+      <a href = '{% url "addbudgetapi" %}' style = 'font-size:100%;' class = 'navbar-brand'>
         BudgetAPI
       </a>
     {% else %}
     <span>
-      <a href = '{% url "addexpenseapi" %}' style = 'font-size:20%;' class = 'navbar-brand'>
+      <a href = '{% url "addexpenseapi" %}' style = 'font-size:100%;' class = 'navbar-brand'>
         ExpenseAPI
       </a>
     {% endif %}
