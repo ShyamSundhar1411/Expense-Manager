@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'social_django',
+    'crispy_forms',
 
 ]
 REST_FRAMEWORK = {
@@ -154,6 +155,7 @@ AUTHENTICATION_BACKENDS = {
     'social_core.backends.github.GithubOAuth2',
 
 }
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 #Google
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = SOCIAL_AUTH_GOOGLE_OAUTH2_KEY
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET
