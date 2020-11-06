@@ -14,11 +14,9 @@
     </div>
     {% endfor %}
     <br/>
-    {% if user.is_authenticated and not backends.associated %}
-      <a href = '{% url "new_password" %}' class = 'btn btn-primary'>Reset Password</a>
+      <a href = '{% url "account_change_password" %}' class = 'btn btn-primary'>Reset Password</a>
       <br/>
       <br/>
-    {% endif %}
     <button type = 'submit' class = 'btn btn-success'>Update Profile</button>
   </form>
 </div>

@@ -30,6 +30,8 @@ urllib3 = "==1.25.10"
 Django = "==3.1.1"
 Pillow = "==7.2.0"
 PyJWT = "==1.7.1"
+django-allauth = "*"
+django-crispy-forms = "*"
 
 [requires]
 python_version = "3.8"

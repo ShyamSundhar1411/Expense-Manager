@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
+{% load socialaccount %}
+<div class = 'container'>
+  <br/>
+  <h1>Signup</h1>
+  <hr/>
+  <form method = 'POST' enctype = 'multipart/form-data'>
+    {% csrf_token %}
+    {{form|crispy}}
+        <button type = 'submit' class = 'btn btn-primary'>SignUp</button>
+        <br/>
+        <p class = 'text-muted'>Having account already ?<a href = '{% url "account_login" %}' id = 'login'> Login</a> or Use Social Platforms
+          <br/>
+          <p><a href='{% provider_login_url "google" %}'><img src = '{% static "Google.png" %}' style = 'height:20px;width:20px;'</a>
+            <a href = '{% provider_login_url "github" %}' style = 'padding-left:10px;'><img class = 'img-rounded' src = '{% static "Github.webp" %}' style = 'height:25px;width:25px;'></a></p>
+            <br/>
+          </form>
+        </div>
+    {% endblock %}
