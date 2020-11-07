@@ -35,7 +35,6 @@ INSTALLED_APPS = [
     'expense',
     'api',
     #Django Authentication Services
-    'django.contrib.sites',
     'django.contrib.auth',
     'django.contrib.admin',
     'django.contrib.contenttypes',
@@ -49,11 +48,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'social_django',
     'crispy_forms',
-    'allauth',
-    'allauth.socialaccount',
-    'allauth.account',
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.github',
 
 ]
 REST_FRAMEWORK = {
@@ -149,19 +143,27 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL  = '/media/'
 STATIC_ROOT=os.path.join(BASE_DIR,'static')
 STATIC_URL = '/static/'
-LOGIN_URL = 'account_login'
+LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 #Social Authentications
 AUTHENTICATION_BACKENDS = {
     #Default Auth_Backend
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
+    #Social Account
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.github.GithubOAuth2',
 
 }
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-#Social Authentications
-SOCIALACCOUNT_PROVIDERS = SOCIALACCOUNT_PROVIDERS
+#Google
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = SOCIAL_AUTH_GOOGLE_OAUTH2_KEY
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE
+#GitHub
+SOCIAL_AUTH_GITHUB_KEY = SOCIAL_AUTH_GITHUB_KEY
+SOCIAL_AUTH_GITHUB_SECRET = SOCIAL_AUTH_GITHUB_SECRET
+SOCIAL_AUTH_GITHUB_SCOPE = SOCIAL_AUTH_GITHUB_SCOPE
 SITE_ID = SITE_ID
 #Email Backends
 EMAIL_BACKEND = EMAIL_BACKEND

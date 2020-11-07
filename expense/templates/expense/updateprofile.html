@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load widget_tweaks %}
 {% load crispy_forms_tags %}
 <div class = 'container'>
   <h2>{{user.username}}'s Profile </h2>
@@ -7,10 +8,11 @@
   <form method = 'POST' enctype = 'multipart/form-data'>
     {% csrf_token %}
     {{form|crispy}}
-    <br/>
-      <a href = '{% url "account_change_password" %}' class = 'btn btn-primary'>Reset Password</a>
+    {% if user.is_authenticated and not backends.associated %}
+      <a href = '{% url "new_password" %}' class = 'btn btn-primary'>Reset Password</a>
       <br/>
       <br/>
+    {% endif %}
     <button type = 'submit' class = 'btn btn-success'>Update Profile</button>
   </form>
 </div>

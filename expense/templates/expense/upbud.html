@@ -3,13 +3,11 @@
 {% load crispy_forms_tags %}
 <div class = 'container'>
   <h2>Edit Budget</h2>
-  <hr/>
   <form method = 'POST' enctype = 'multipart/form-data'>
     {% csrf_token %}
     {{form|crispy}}
     <button type = 'submit' class = 'btn btn-success'>Save</button>
   </form>
   <br/>
-  <a href ="{% url 'buddel' budget.id %}" class = 'btn btn-danger'>Delete this budget</a>
 </div>
 {% endblock %}
