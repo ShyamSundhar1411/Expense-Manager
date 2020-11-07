@@ -8,11 +8,12 @@
   <form method = 'POST' enctype = 'multipart/form-data'>
     {% csrf_token %}
     {{form|crispy}}
+    {% if user.is_authenticated and not backends.associated %}
+      <a href = '{% url "new_password" %}' class = 'btn btn-primary'>Reset Password</a>
       <br/>
-    <div class = 'inline block'>
-      <button type = 'submit' class = 'btn btn-success'>Update Profile</button>
-      <a href = '{% url "account_set_password" %}' class = 'btn btn-primary'>Reset Password</a>
-    </div>
+      <br/>
+    {% endif %}
+    <button type = 'submit' class = 'btn btn-success'>Update Profile</button>
   </form>
 </div>
 {% endblock %}
