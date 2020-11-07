@@ -1,18 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load crispy_forms_tags %}
 <div class = 'container'>
   <h2>Edit Expense</h2>
   <hr/>
   <form method = 'POST' enctype = 'multipart/form-data'>
     {% csrf_token %}
-    {% load widget_tweaks %}
-    {% for field in form %}
-    <div class = 'form-group{% if field.errors %} alert alert-danger{% endif %}'>
-      {{field.errors}}
-      {{field.label_tag}}
-      {% render_field field class='form-control' %}
-    </div>
-    {% endfor %}
+    {{form|crispy}}
     <button type = 'submit' class = 'btn btn-success'>Save</button>
   </form>
   <br/>
