@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+os.environ['PATH'] = ''
+os.environ['PATH'] = os.pathsep + 'C:/Program Files/Graphviz/bin'
 from .secret import *
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -48,7 +50,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'social_django',
     'crispy_forms',
-
+    'django_extensions',
+    'schema_graph',
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -174,3 +177,5 @@ EMAIL_HOST_USER = EMAIL_HOST_USER
 EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
 EMAIL_PORT = EMAIL_PORT
 DEFAULT_FROM_EMAIL = DEFAULT_FROM_EMAIL
+#Graph Models
+GRAPH_MODELS = GRAPH_MODELS

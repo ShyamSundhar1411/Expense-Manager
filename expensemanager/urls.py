@@ -5,6 +5,7 @@ from expense import views
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.auth import views as auth_views
+from schema_graph.views import Schema
 urlpatterns = [
     #Operational
     path('admin/', admin.site.urls),
@@ -26,5 +27,6 @@ urlpatterns = [
     path('registration/',include('social_django.urls', namespace = 'social')),
     #API
     path('api/',include('api.urls')),
-
+    #Schema
+    path('schema/',Schema.as_view(),name = 'schema'),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

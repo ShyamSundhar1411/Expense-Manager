@@ -32,6 +32,12 @@ Pillow = "==7.2.0"
 PyJWT = "==1.7.1"
 django-allauth = "*"
 django-crispy-forms = "*"
+django-extensions = "*"
+django-import-export = "*"
+pyparsing = "*"
+pydot = "*"
+django-schema-graph = "*"
+django-spaghetti-and-meatballs = "*"
 
 [requires]
 python_version = "3.8"

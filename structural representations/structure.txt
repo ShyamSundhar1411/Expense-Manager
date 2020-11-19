@@ -1,0 +1,6 @@
+#PNG of full data structure
+py manage.py graph_models --pydot -a -g -o expensemanager.png
+#Arrow Shape
+py manage.py graph_models -a --arrow-shape normal -o my_project_sans_foo_bar.png
+#For Certain Models
+py manage.py graph_models -a -I Foo,Bar -o my_project_subsystem.png 
