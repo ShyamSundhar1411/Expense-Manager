@@ -7,7 +7,7 @@ class ExpenseAddSerialzer(serializers.ModelSerializer):
     dot = serializers.ReadOnlyField()
     class Meta:
         model = Expense
-        fields = ['id','title','expense','category','payment','receipt','dot']
+        fields = ('id','title','expense','category','payment','receipt','dot')
 class BudgetAddSerialzer(serializers.ModelSerializer):
     dot = serializers.ReadOnlyField()
     class Meta:

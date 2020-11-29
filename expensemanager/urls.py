@@ -12,6 +12,7 @@ urlpatterns = [
     path('expense/',include('expense.urls')),
     path('',views.home,name='home'),
     path('profile/',views.Profile.as_view(),name = 'profile'),
+    path('about/',views.about,name='about'),
     #Authentications
     path('signup',views.Signup.as_view(),name = 'signup'),
     path('login',auth_views.LoginView.as_view(),name = 'login'),

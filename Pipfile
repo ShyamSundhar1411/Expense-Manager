@@ -1,21 +1,19 @@
 [[source]]
-name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
-
-[dev-packages]
+name = "pypi"
 
 [packages]
 django = "*"
-django-widget-tweaks = "*"
-django-crispy-forms = "*"
-social-auth-app-django = "*"
-django-restframework = "*"
 django-mathfilters = "*"
-django-schema-graph = "*"
+django-crispy-forms = "*"
 pillow = "*"
-django-grappelli = "*"
-django-extensions = "*"
+django-schema-graph = "*"
+django-widget-tweaks = "*"
+djangorestframework = "*"
+social-auth-app-django = "*"
+
+[dev-packages]
 
 [requires]
 python_version = "3.8"

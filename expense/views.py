@@ -11,7 +11,6 @@ from django.contrib.auth import login,authenticate
 from django.http import HttpResponse,Http404
 from django.urls import reverse_lazy
 from django.views import generic
-from django.contrib.auth.forms import SetPasswordForm
 from .forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 import csv
@@ -111,7 +110,6 @@ def budget(request):
             exp.dot=timezone.datetime.now()
             exp.source=request.POST['source']
             exp.save()
-            k=Budget.objects
             return render(request,'expense/home.html',{'budget':'Successfully Added ${x} to your account'.format(x=exp.budget)})
         else:
             return render(request,'expense/budget.html',{'error':'Entered the required fields'})

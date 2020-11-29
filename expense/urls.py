@@ -9,7 +9,6 @@ urlpatterns = [
     path('detail',views.detail,name='detail'),
     path('analysis',views.analysis,name = 'analysis'),
     path('budget',views.budget,name='budget'),
-    path('about',views.about,name='about'),
     path('report',views.report,name = 'report'),
     #CRUD
     path('<int:pk>/delete',views.Delete.as_view(),name = 'delexp'),
