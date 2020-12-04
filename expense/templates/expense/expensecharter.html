@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class = 'container'>
+  <br/>
+  <h2>Expense Analysis</h2>
+  <hr/>
+    <div class='container  align-center'>
+      <div class = 'row'>
+        <div class = 'col-lg-4 col-md-6' style = 'width:50%;'>
+          <canvas id="expense-pie-chart" style = 'width: 50%;'></canvas>
+        </div>
+        <div class = 'col-lg-4 col-md-6'style = 'width:50%;'>
+          <canvas id="expense-bar-chart" style = ' width: 50%; height: 50%;' ></canvas>
+        </div>
+      </div>
+    </div>
+  <br/>
+  <br/>
+    <div class = 'row inline-block'>
+      <canvas id="expense-line-chart" style = 'width: 545.406px; height: 172px;'></canvas>
+    </div>
+    <br/>
+    <a href = '{% url "detail" %}' class = 'btn  btn-success'><span class="oi oi-arrow-left"></a>
+  </div>
+  <script>
+
+  var expensepiechart = {
+    type: 'doughnut',
+    data: {
+      datasets: [{
+        data: {{ expensedatas|safe }},
+        backgroundColor: [
+          'springgreen','#5DA5DA', '#FAA43A', '#B276B2', '#F17CB0','violet'
+        ],
+        borderColor: 'black',
+        label: 'Expense'
+      }],
+      labels: {{ expenselabels|safe }}
+    },
+    options: {
+      responsive: true
+    }
+  };
+  var expensebarchart = {
+    type: 'bar',
+    data: {
+      datasets: [{
+        maxBarThickness: 4,
+        minBarLength: 2,
+        data: {{ expensedatas|safe }},
+        fill: false,
+        backgroundColor: [
+          'aquamarine','#5DA5DA', '#FAA43A', '#B276B2', '#F17CB0'
+        ],
+        label: 'Expense'
+      }],
+      labels: {{ expenselabels|safe }}
+    },
+    options: {
+      responsive: true,
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          },
+          categoryPercentage: 0.4,
+          barPercentage: 0.4,
+        }],
+        xAxes: [{
+          categoryPercentage: 0.4,
+          barPercentage: 0.4,
+        }]
+      },
+    }
+  };
+ var expenselinechart = {
+   type: 'line',
+   data: {
+     datasets:[{
+       data: {{linedatas|safe}},
+       hoverBackgroundColor: 'white',
+       label: 'Expense',
+       borderColor: '#008b8b',
+       backgroundColor: 'rgba(0,0,0,0)',
+     }],
+     labels: {{linelabels|safe}}
+   },
+   options: {
+     responsive: true,
+     yAxes: [{
+       ticks: {
+         beginAtZero: true
+       },
+   }],
+ },
+ };
+
+  window.onload = function() {
+    var ctx = document.getElementById('expense-pie-chart').getContext('2d');
+    window.myPie = new Chart(ctx, expensepiechart);
+    var ctx1 = document.getElementById('expense-bar-chart').getContext('2d');
+    window.myBar = new Chart(ctx1, expensebarchart);
+    var ctx2 = document.getElementById('expense-line-chart').getContext('2d');
+    window.myLine = new Chart(ctx2, expenselinechart);
+  };
+  </script>
+
+</div>
+{% endblock %}

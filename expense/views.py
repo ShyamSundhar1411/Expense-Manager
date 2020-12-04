@@ -8,11 +8,13 @@ from django.contrib.auth.models import User
 from django.utils.datastructures import MultiValueDictKeyError
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,authenticate
-from django.http import HttpResponse,Http404
+from django.http import HttpResponse,Http404,JsonResponse
 from django.urls import reverse_lazy
 from django.views import generic
-from .forms import UserCreationForm
+from .filters import ExpenseFilter,BudgetFilter
+from .forms import UserCreationForm,ExpenseCreationForm,BudgetCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 import csv
 #Class Based Views
 #Authentication
@@ -58,7 +60,7 @@ class Upbud(LoginRequiredMixin,generic.UpdateView):
 class DelBud(LoginRequiredMixin,generic.DeleteView):
     model = Budget
     template_name = 'expense/deletebudget.html'
-    success_url = reverse_lazy('budget')
+    success_url = reverse_lazy('detail')
     def get_object(self):
         v = super(DelBud,self).get_object()
         if not v.userin == self.request.user:
@@ -73,89 +75,184 @@ class Delete(LoginRequiredMixin,generic.DeleteView):
         if not v.expenser == self.request.user:
             raise Http404
         return v
+#Filterers
+class ExpenseCategoriser(LoginRequiredMixin,generic.ListView):
+    model = Expense
+    template_name = 'expense/expensecategoriser.html'
+    def get_queryset(self):
+        return Expense.objects.filter(expenser = self.request.user)
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filterer'] = ExpenseFilter(self.request.GET,queryset = self.get_queryset())
+        return context
+class BudgetCategoriser(LoginRequiredMixin,generic.ListView):
+    model = Budget
+    template_name = 'expense/budgetcategoriser.html'
+    def get_queryset(self):
+        return Budget.objects.filter(userin = self.request.user)
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filterer'] = BudgetFilter(self.request.GET,queryset = self.get_queryset())
+        return context
 #Function Based Views
 def home(request):
     return render(request,'expense/home.html')
 @login_required()
 def add(request):
     if request.method=='POST':
-        if request.POST['title'] and request.POST['expense'] and request.POST['category']  and request.POST['pay']:
-            try:
-                if request.FILES.get('receipt'):
-                    im=request.FILES['receipt']
-            except MultiValueDictKeyError:
-                return render(request,'expense/add.html',{'error':'All fields are required'})
-            exp=Expense()
-            exp.title=request.POST['title']
-            exp.expense=int(request.POST['expense'])
-            exp.payment=request.POST['pay']
-            exp.category=request.POST['category']
-            exp.dot=timezone.datetime.now()
-            if request.FILES.get('receipt'):
-                exp.receipt = request.FILES['receipt']
-            exp.expenser=request.user
-            exp.save()
+        try:
+            form = ExpenseCreationForm(request.POST)
+            newform = form.save(commit=False)
+            newform.expenser = request.user
+            newform.save()
             return redirect('detail')
-        else:
-            return render(request,'expense/add.html',{'error':'All fields are required'})
+        except ValueError:
+            return render(request, 'expense/add.html', {'form':TodoForm(), 'error':'Bad data passed in. Try again.'})
+
     else:
-        return render(request,'expense/add.html')
+        return render(request,'expense/add.html',{'form':ExpenseCreationForm()})
 @login_required()
 def budget(request):
-    if request.method=='POST':
-        if request.POST['budget']:
-            exp=Budget()
-            exp.userin=request.user
-            exp.budget=int(request.POST['budget'])
-            exp.dot=timezone.datetime.now()
-            exp.source=request.POST['source']
-            exp.save()
-            return render(request,'expense/home.html',{'budget':'Successfully Added ${x} to your account'.format(x=exp.budget)})
+        if request.method=='POST':
+            try:
+                form = BudgetCreationForm(request.POST)
+                newform = form.save(commit=False)
+                newform.userin = request.user
+                newform.save()
+                return redirect('detail')
+            except ValueError:
+                return render(request, 'expense/budget.html', {'form':TodoForm(), 'error':'Bad data passed in. Try again.'})
+
         else:
-            return render(request,'expense/budget.html',{'error':'Entered the required fields'})
-    else:
-        return render(request,'expense/budget.html')
+            return render(request,'expense/budget.html',{'form':BudgetCreationForm()})
 @login_required()
 def detail(request):
     w = Expense.objects.filter(expenser=request.user).order_by('-dot')
     i = Budget.objects.filter(userin=request.user)
-    if request.GET.get('filter') == 'Weekly':
-        return render(request,'expense/detail.html',{'hey':w.order_by('-dot__week'),'bud':i})
-    elif request.GET.get('filter') == 'Yearly':
-        return render(request,'expense/detail.html',{'hey':w.order_by('-dot__year'),'bud':i})
-    elif request.GET.get('filter') == 'Monthly':
-        return render(request,'expense/detail.html',{'hey':w.order_by('-dot__month'),'bud':i})
+    totalbudget = Budget.objects.filter(userin=request.user).aggregate(total=Sum('budget'))
+    totalexpense = Expense.objects.filter(expenser=request.user).aggregate(total=Sum('expense'))
+    if  totalbudget['total'] is None or totalexpense['total'] is None:
+        return render(request,'expense/detail.html',{'hey':w,'bud':i})
+    elif totalbudget['total']-totalexpense['total'] < 100   :
+        messages.error(request, "Your expense for this month is High than the allocated budget." )
+        return render(request,'expense/detail.html',{'hey':w,'bud':i})
     else:
         return render(request,'expense/detail.html',{'hey':w,'bud':i})
 @login_required()
 def analysis(request):
         w = Expense.objects.filter(expenser=request.user).order_by('-dot')
-        z = Expense.objects.filter(expenser=request.user).aggregate(tot=Sum('expense'))
+        totalexpense = Expense.objects.filter(expenser=request.user).aggregate(total=Sum('expense'))
         i = Budget.objects.filter(userin=request.user)
-        p = Budget.objects.filter(userin=request.user).aggregate(are=Sum('budget'))
-        if p['are'] is None:
-                return render(request,'expense/home.html',{'hey':w,'bud':i,'result':z,'error':'*Not enough Funds. Add Budget to Continue. Remember Your initial expense value will be deducted from the new Budget amount. Your Account is locked until that*'})
-        elif z['tot'] is None:
-                return render(request,'expense/home.html',{'hey':w,'bud':i,'result':z,'error':'*Enter Expense to continue. Your Account is locked until that*'})
+        totalbudget = Budget.objects.filter(userin=request.user).aggregate(total=Sum('budget'))
+        expenselabels = []
+        expensedatas = []
+        budgetlabels = []
+        budgetdatas = []
+        budgetqueryset = Budget.objects.filter(userin = request.user).order_by('dot')
+        expensequeryset = Expense.objects.filter(expenser = request.user).order_by('dot')
+        for expensevalue in expensequeryset:
+            expenselabels.append(expensevalue.dot_pretty())
+            expensedatas.append(expensevalue.expense)
+        for budgetvalue in budgetqueryset:
+            budgetlabels.append(budgetvalue.dot_pretty())
+            budgetdatas.append(budgetvalue.budget)
+        if totalbudget['total'] is None:
+            messages.info(request, "*Get Started by adding Budget*" )
+            return redirect('budget')
+        elif totalexpense['total'] is None:
+            messages.info(request, "*Enter Expense to continue.*" )
+            return redirect('expense')
         else:
-            if z['tot']>p['are']:
-                return render(request,'expense/home.html',{'hey':w,'bud':i,'result':z,'error':'*Not enough Funds. Add Budget to Continue. Remember Your initial expense value will be deducted from the new Budget amount. Your Account is locked until that*'})
+            if totalexpense['total']>totalbudget['total']:
+                messages.error(request, "*Not enough Funds. Add Budget to Continue. Remember Your initial expense value will be deducted from the new Budget amount. Your Account is locked until that" )
+                return redirect('budget')
             else:
-                return render(request,'expense/analysis.html',{'hey':w,'bud':i,'result':z,'sue':p})
+                return render(request,'expense/analysis.html',{'hey':w,'bud':i,'totalexpense':totalexpense,'totalbudget':totalbudget,'expenselabels':expenselabels,'expensedatas':expensedatas,'budgetlabels':budgetlabels,'budgetdatas':budgetdatas})
 def about(request):
     return render(request,'expense/about.html')
+@login_required()
 def report(request):
     response = HttpResponse(content_type = 'text/csv')
     writer = csv.writer(response)
     if request.GET.get('repo') == 'Expense':
-        writer.writerow(['Title','Category','Expense','Date','Mode of Payment'])
-        for i in Expense.objects.filter(expenser = request.user).extra(select={'date':"STRFTIME('%%d-%%m-%%Y',dot)"}).values_list('title','category','expense','date','payment'):
+        writer.writerow(['Title','Category','Expense','Date',' Mode of Payment '])
+        for i in Expense.objects.filter(expenser = request.user).extra(select={'date':'dot'}).values_list('title','category','expense','date','payment'):
             writer.writerow(i)
         response['Content-Disposition'] = 'attachment;filename = "Expense_reports.csv"'
         return response
     else:
         writer.writerow(['Budget','Source','Last Updated'])
-        for i in Budget.objects.filter(userin= request.user).extra(select={'date':"STRFTIME('%%d-%%m-%%Y',dot)"}).values_list('budget','source','date'):
+        for i in Budget.objects.filter(userin= request.user).extra(select={'date':'dot'}).values_list('budget','source','date'):
                 writer.writerow(i)
         response['Content-Disposition'] = 'attachment;filename = "Budget_reports.csv"'
         return response
+@login_required()
+def expensecharters(request):
+    expenselinelabels = []
+    expenselinedatas = []
+    expenselabels = []
+    expensedatas = []
+    expensequeryset = Expense.objects.filter(expenser=request.user).order_by('-expense')
+    automobileexpense = Expense.objects.filter(expenser = request.user,category = 'Automobile').aggregate(total = Sum('expense'))
+    foodexpense = Expense.objects.filter(expenser = request.user,category = 'Food').aggregate(total = Sum('expense'))
+    electricityexpense = Expense.objects.filter(expenser = request.user,category = 'Electricity').aggregate(total = Sum('expense'))
+    watersupplyexpense = Expense.objects.filter(expenser = request.user,category = 'Water Supply').aggregate(total = Sum('expense'))
+    entertainmentexpense = Expense.objects.filter(expenser = request.user,category = 'Entertainment').aggregate(total = Sum('expense'))
+    otherexpense = Expense.objects.filter(expenser = request.user,category = 'Others').aggregate(total = Sum('expense'))
+    expenselinequeryset = Expense.objects.filter(expenser=request.user).order_by('dot')
+    if automobileexpense['total'] is None:
+        automobileexpense['total']  = 0
+    if watersupplyexpense['total'] is None:
+        watersupplyexpense['total'] = 0
+    if foodexpense['total'] is None:
+        foodexpense['total'] = 0
+    if electricityexpense['total'] is None:
+        electricityexpense['total'] = 0
+    if entertainmentexpense['total'] is None:
+        entertainmentexpense['total'] = 0
+    if otherexpense['total'] is None:
+        otherexpense['total'] = 0
+    expensedatas.extend([automobileexpense['total'],foodexpense['total'],electricityexpense['total'],watersupplyexpense['total'],entertainmentexpense['total'],otherexpense['total']])
+    expensedatas.sort(reverse = True)
+    for expensevalue in expensequeryset:
+        if expensevalue.category not in expenselabels:
+            expenselabels.append(expensevalue.category)
+    for expensevalue in expenselinequeryset:
+        expenselinelabels.append(expensevalue.dot_pretty())
+        expenselinedatas.append(expensevalue.expense)
+    return render(request, 'expense/expensecharter.html', {'linelabels':expenselinelabels,'linedatas':expenselinedatas,'expenselabels':expenselabels,'expensedatas':expensedatas})
+@login_required()
+def budgetcharters(request):
+    budgetlabels = []
+    budgetdatas = []
+    budgetlinelabels = []
+    budgetlinedatas = []
+    budgetqueryset = Budget.objects.filter(userin=request.user).order_by('dot')
+    budgetlinequeryset = Budget.objects.filter(userin=request.user).order_by('dot')
+    automobilebudget = Budget.objects.filter(userin = request.user,category = 'Automobile').aggregate(total = Sum('budget'))
+    foodbudget = Budget.objects.filter(userin = request.user,category = 'Food').aggregate(total = Sum('budget'))
+    electricitybudget = Budget.objects.filter(userin = request.user,category = 'Electricity').aggregate(total = Sum('budget'))
+    watersupplybudget = Budget.objects.filter(userin = request.user,category = 'Water Supply').aggregate(total = Sum('budget'))
+    entertainmentbudget = Budget.objects.filter(userin= request.user,category = 'Entertainment').aggregate(total = Sum('budget'))
+    otherbudget= Budget.objects.filter(userin = request.user,category = 'Others').aggregate(total = Sum('budget'))
+    for budgetvalue in budgetqueryset:
+        if budgetvalue.category not in budgetlabels:
+            budgetlabels.append(budgetvalue.category)
+    if automobilebudget['total'] is None:
+        automobilebudget['total']  = 0
+    if watersupplybudget['total'] is None:
+        watersupplybudget['total'] = 0
+    if foodbudget['total'] is None:
+        foodbudget['total'] = 0
+    if electricitybudget['total'] is None:
+        electricitybudget['total'] = 0
+    if entertainmentbudget['total'] is None:
+        entertainmentbudget['total'] = 0
+    if otherbudget['total'] is None:
+        otherbudget['total'] = 0
+    budgetdatas.extend([automobilebudget['total'],foodbudget['total'],electricitybudget['total'],watersupplybudget['total'],entertainmentbudget['total'],otherbudget['total']])
+    budgetdatas.sort(reverse = True)
+    for budgetvalue in budgetqueryset:
+        budgetlinelabels.append(budgetvalue.dot_pretty())
+        budgetlinedatas.append(budgetvalue.budget)
+    return render(request, 'expense/budgetcharter.html', {'budgetlabels': budgetlabels,'budgetdatas': budgetdatas,'linelabels':budgetlinelabels,'linedatas':budgetlinedatas})

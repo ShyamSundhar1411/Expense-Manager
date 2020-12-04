@@ -10,6 +10,10 @@ urlpatterns = [
     path('analysis',views.analysis,name = 'analysis'),
     path('budget',views.budget,name='budget'),
     path('report',views.report,name = 'report'),
+    path('expenseanalysis/', views.expensecharters, name='expensecharter'),
+    path('budgetanalysis/',views.budgetcharters,name = 'budgetcharter'),
+    path('expensefilterer/',views.ExpenseCategoriser.as_view(),name = 'expensefilterer'),
+    path('budgetfilterer/',views.BudgetCategoriser.as_view(),name = 'budgetfilterer'),
     #CRUD
     path('<int:pk>/delete',views.Delete.as_view(),name = 'delexp'),
     path('<int:pk>/update',views.Update.as_view(),name = 'update'),

@@ -17,32 +17,81 @@
     <div class = 'col-lg-4 col-md-6'>
       <div class="card card border-success mb-3" >
         <div class="card-body">
-          <h3 class="card-title">Total Budget :</h3>
-          <h3 style = 'font-size:40px'>$ {{sue.are|sub:result.tot}}</h3>
+          <a href = "{% url 'budgetcharter' %}" id =banalytics>
+            <h3 class="card-title">Total Budget :</h3>
+            <h3 style = 'font-size:40px'>$ {{totalbudget.total|sub:totalexpense.total}}</h3></a>
+          </div>
         </div>
       </div>
-    </div>
-    <div class = 'col-lg-4 col-md-6'>
-      <div class="card card border-success mb-3" >
-        <div class="card-body">
-          <h3 class="card-title" >Total Expense{{hey.count|pluralize}} :</h3>
-          <h3 style = 'font-size:40px'>$ {{result.tot}}</h3>
+      <div class = 'col-lg-4 col-md-6'>
+        <div class="card card border-success mb-3" >
+          <div class="card-body">
+            <a href = '{% url "expensecharter" %}' id = 'eanalytics'>
+              <h3 class="card-title" >Total Expense{{hey.count|pluralize}} :</h3>
+              <h3 style = 'font-size:40px'>$ {{totalexpense.total}}</h3>
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-    <div class = 'col-lg-4 col-md-6'>
-      <div class="card card border-success mb-3" >
-        <div class="card-body">
-          <h3 class="card-title">Total Transaction{{hey.count|pluralize}}:</h3>
-          <h3 style = 'font-size:40px'>{{hey.count}}</h3>
+      <div class = 'col-lg-4 col-md-6'>
+        <div class="card card border-success mb-3" >
+          <div class="card-body">
+            <h3 class="card-title">Total Transaction{{hey.count|pluralize}}:</h3>
+            <h3 style = 'font-size:40px'>{{hey.count}}</h3>
+          </div>
         </div>
       </div>
-    </div>
-    <div class='container d-inline-block'>
-      <a href ='{% url "detail" %} ' class = 'btn btn-primary' style = 'color:white;text-decoration:none;'>Dashboard</a>
-      <a href ='{% url "expense" %} ' class = 'btn btn-primary' style = 'color:white;text-decoration:none;' >Add Expense</a>
-      <a href ='{% url "budget" %} ' class = 'btn btn-primary' style = 'color:white;text-decoration:none;'>Add Budget</a>
+      <div class = 'container'>
+        <div class = 'container' style = 'width: 75%;'>
+          <canvas id = 'mixedchart' style = 'width: 50%;'></canvas>
+        </div>
+      </div>
+
+      <div class='container d-inline-block'>
+        <a href ='{% url "detail" %} ' class = 'btn btn-primary' style = 'color:white;text-decoration:none;'>Dashboard</a>
+        <a href ='{% url "expense" %} ' class = 'btn btn-primary' style = 'color:white;text-decoration:none;' >Add Expense</a>
+        <a href ='{% url "budget" %} ' class = 'btn btn-primary' style = 'color:white;text-decoration:none;'>Add Budget</a>
+      </div>
     </div>
   </div>
+  <script>
+  var mixedchart = {
+    type: 'line',
+    data: {
+      datasets: [{
+        label: 'Expense',
+        data: {{expensedatas|safe}},
+        order: 1,
+        borderColor: '#008b8b',
+      }, {
+        label: 'Budget',
+        data: {{budgetdatas|safe}},
+        type: 'line',
+        borderColor: 'red',
+        order: 2
+      }],
+      labels: {{expenselabels|safe}}
+    },
+    options: {
+      responsive: true,
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        },
+      }],
+      layout: {
+        padding: {
+          left: 50,
+          right: 0,
+          top: 0,
+          bottom: 0
+        }
+      },
+    },
+  };
+  window.onload = function() {
+    var ctx = document.getElementById('mixedchart').getContext('2d');
+    window.myLine = new Chart(ctx, mixedchart);};
 
-  {% endblock%}
+    </script>
+    {% endblock%}

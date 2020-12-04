@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class='container'>
+  <form method = 'GET'>
+    {{filterer.form|crispy}}
+    <button type = 'submit' class = 'btn btn-primary btn-icon rounded-pill'>Filter</button>
+  </form>
+  <br/>
+  <div class = 'row'>
+    {% for budget in filterer.qs %}
+    <div class="col-md-3 ">
+      <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative card border-dark mb-3">
+        <div class="col p-4 d-flex flex-column position-static bg-white " >
+          <p class="card-text mb-auto" style = 'font-size:20px;'>Budget: $ {{budget.budget}}</p>
+          <p class="card-text mb-auto" style = 'font-size:20px;'>Category: {{budget.category}}</p>
+          <p class="card-text mb-auto" style = 'font-size:20px;'>Source: {{budget.source}}</p>
+          <div class="mb-1 text-muted"><span class="oi oi-clock" ></span> {{budget.dot|date:"D, dS M, Y "}}<span/></div>
+          <div class = 'd-inline-block'>
+            <a class = 'btn btn-success btn-icon rounded-pill' style = 'width:auto;' href ='{% url "budup" budget.id %}'>Update</a>
+            <a class = 'btn btn-danger btn-icon rounded-pill' style = 'width:auto;' href ='{% url "buddel" budget.id %}'>Delete</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

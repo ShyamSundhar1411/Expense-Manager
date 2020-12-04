@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class = 'container'>
+  <h1>Budget Analysis</h1>
+  <hr/>
+  <div class = 'container'>
+    <div class = 'row'>
+      <div class = 'col-lg-4 col-md-6'  style = 'width:50%;'>
+        <canvas id="budget-pie-chart" style = 'width: 50%;'></canvas>
+      </div>
+      <div class = 'col-lg-4 col-md-6' style = 'width:50%;'>
+        <canvas id="budget-bar-chart" style = ' width: 50%; height: 50%;'></canvas>
+      </div>
+    </div>
+  </div>
+  <br/>
+  <br/>
+  <div class = 'row inline-block'>
+    <canvas id="budget-line-chart" style = 'display: block;width: 545.406px; height: 172px;'></canvas>
+  </div>
+  <script>
+
+  var budgetpiechart = {
+    type: 'doughnut',
+    data: {
+      datasets: [{
+        data: {{ budgetdatas|safe }},
+        backgroundColor: [
+          'aquamarine','#5DA5DA', '#FAA43A', '#B276B2', '#F17CB0'
+        ],
+        borderColor: 'black',
+        label: 'Budget'
+      }],
+      labels: {{ budgetlabels|safe }}
+    },
+    options: {
+      responsive: true
+    }
+  };
+  var budgetbarchart = {
+    type: 'bar',
+    data: {
+      datasets: [{
+        maxBarThickness: 4,
+        minBarLength: 2,
+        data: {{ budgetdatas|safe }},
+        fill: false,
+        backgroundColor: [
+          'springgreen','#5DA5DA', '#FAA43A', '#B276B2', '#F17CB0'
+        ],
+        label: 'Budget',
+        borderColor: 'black',
+      }],
+      labels: {{ budgetlabels|safe }}
+    },
+    options: {
+      responsive: true,
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          },
+          categoryPercentage: 0.4,
+          barPercentage: 0.4,
+        }],
+        xAxes: [{
+          categoryPercentage: 0.4,
+          barPercentage: 0.4,
+        }]
+      }
+    },
+  };
+  var budgetlinechart = {
+    type: 'line',
+    data: {
+      datasets:[{
+        data: {{linedatas|safe}},
+        hoverBackgroundColor: 'white',
+        backgroundColor: '#008b8b',
+        label: 'Budget',
+        borderColor: '#008b8b',
+        backgroundColor: 'rgba(0,0,0,0)',
+      }],
+      labels: {{linelabels|safe}}
+    },
+    options: {
+      responsive: true,
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          },
+          categoryPercentage: 0.4,
+          barPercentage: 0.4,
+        }],
+        xAxes: [{
+          categoryPercentage: 0.4,
+          barPercentage: 0.4,
+        }]
+      }
+    },
+  };
+
+  window.onload = function() {
+    var ctx = document.getElementById('budget-pie-chart').getContext('2d');
+    window.myPie = new Chart(ctx, budgetpiechart);
+    var ctx1 = document.getElementById('budget-bar-chart').getContext('2d');
+    window.myBar = new Chart(ctx1, budgetbarchart);
+    var ctx2 = document.getElementById('budget-line-chart').getContext('2d');
+    window.myLine = new Chart(ctx2, budgetlinechart);
+  };
+  </script>
+  <br/>
+  <a href = '{% url "detail" %}' class = 'btn  btn-success'><span class="oi oi-arrow-left"></a>
+  </div>
+
+</div>
+</div>
+{% endblock %}

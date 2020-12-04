@@ -1,0 +1,17 @@
+{% for message in messages %}
+<div class="container-fluid p-0" id ='message'>
+  <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <div class = 'text-center'>
+      {{ message }}
+    </div>
+  </div>
+</div>
+<script>
+setTimeout(function() {
+  $('#message').fadeOut('medium');
+}, 5000);
+</script>
+{% endfor %}

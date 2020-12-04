@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load crispy_forms_tags %}
 <div class = 'container'>
   <br/>
   <h1>Add expense👇🏻</h1>
@@ -9,27 +10,7 @@
   {% endif %}
   <form method='POST' action="{% url 'expense' %}" enctype='multipart/form-data'>
     {% csrf_token %}
-    Title :
-    <br/>
-    <input type='text' name='title'/>
-    <br/>
-    Expense:
-    <br/>
-    <input type='number' name='expense' min="0" />
-    <br/>
-    Category :
-    <br/>
-    <input type='text' name='category'/>
-    <br/>
-    Expense Bill:
-    <br/>
-    <input type='file'name='receipt' />
-    <br/>
-    Payment Method:
-    <br/>
-    <input type='text' name='pay'>
-    <br/>
-    <br/>
+    {{form|crispy}}
     <input class='btn btn-primary' type='submit' value='Add'/>
   </form>
 </div>

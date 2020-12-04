@@ -1,13 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-{% if error %}
 <div class = 'container'>
-  <h3 class = 'alert'style='text-align:center;color:red;font-size:17px;' id='succ'>{{error}}</h3>
-  {% endif %}
-  {% if budget %}
-  <h3 style='text-align:center;color:green;' id='succ'><span class="oi oi-check"></span>{{budget}}</h3>
-  {% endif %}
   <br/>
   <br/>
   <br/>
