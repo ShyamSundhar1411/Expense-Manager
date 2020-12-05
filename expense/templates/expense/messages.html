@@ -1,7 +1,7 @@
 {% for message in messages %}
-<div class="container-fluid p-0" id ='message'>
+<div class="container-fluid p-0"  id = 'message' style = 'display: none;'>
   <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" id = 'custom'>
       <span aria-hidden="true">&times;</span>
     </button>
     <div class = 'text-center'>
@@ -9,9 +9,20 @@
     </div>
   </div>
 </div>
-<script>
-setTimeout(function() {
-  $('#message').fadeOut('medium');
-}, 5000);
-</script>
 {% endfor %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+{% for message in messages %}
+$(message)
+    .css('opacity', 0)
+    .slideDown('slow')
+    .animate(
+      { opacity: 1 },
+      { queue: false, duration: 'slow' }
+);
+$('.alert').click(function(){
+$(message)
+  $(message).animate({height:0, opacity: 0}, 2000);
+});
+{% endfor %}
+</script>

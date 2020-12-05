@@ -49,7 +49,7 @@ class Update(LoginRequiredMixin,generic.UpdateView):
         return v
 class Upbud(LoginRequiredMixin,generic.UpdateView):
     model = Budget
-    fields = ['budget','source']
+    fields = ['budget','source','category']
     template_name = 'expense/upbud.html'
     success_url = reverse_lazy('detail')
     def get_object(self):
@@ -134,7 +134,8 @@ def detail(request):
     if  totalbudget['total'] is None or totalexpense['total'] is None:
         return render(request,'expense/detail.html',{'hey':w,'bud':i})
     elif totalbudget['total']-totalexpense['total'] < 100   :
-        messages.error(request, "Your expense for this month is High than the allocated budget." )
+        messages.error(request, "Your total expense is higher than the allocated budgets." )
+        messages.info(request, "Kindly manage your expenses accordingly in these categories [food/automobile/water supply/electricity/entertainment/others]" )
         return render(request,'expense/detail.html',{'hey':w,'bud':i})
     else:
         return render(request,'expense/detail.html',{'hey':w,'bud':i})
@@ -195,6 +196,7 @@ def expensecharters(request):
     expensequeryset = Expense.objects.filter(expenser=request.user).order_by('-expense')
     automobileexpense = Expense.objects.filter(expenser = request.user,category = 'Automobile').aggregate(total = Sum('expense'))
     foodexpense = Expense.objects.filter(expenser = request.user,category = 'Food').aggregate(total = Sum('expense'))
+    groceryexpense = Expense.objects.filter(expenser = request.user,category = 'Groceries').aggregate(total = Sum('expense'))
     electricityexpense = Expense.objects.filter(expenser = request.user,category = 'Electricity').aggregate(total = Sum('expense'))
     watersupplyexpense = Expense.objects.filter(expenser = request.user,category = 'Water Supply').aggregate(total = Sum('expense'))
     entertainmentexpense = Expense.objects.filter(expenser = request.user,category = 'Entertainment').aggregate(total = Sum('expense'))
@@ -206,13 +208,15 @@ def expensecharters(request):
         watersupplyexpense['total'] = 0
     if foodexpense['total'] is None:
         foodexpense['total'] = 0
+    if groceryexpense['total'] is None:
+        groceryexpense['total'] = 0
     if electricityexpense['total'] is None:
         electricityexpense['total'] = 0
     if entertainmentexpense['total'] is None:
         entertainmentexpense['total'] = 0
     if otherexpense['total'] is None:
         otherexpense['total'] = 0
-    expensedatas.extend([automobileexpense['total'],foodexpense['total'],electricityexpense['total'],watersupplyexpense['total'],entertainmentexpense['total'],otherexpense['total']])
+    expensedatas.extend([automobileexpense['total'],foodexpense['total'],groceryexpense['total'],electricityexpense['total'],watersupplyexpense['total'],entertainmentexpense['total'],otherexpense['total']])
     expensedatas.sort(reverse = True)
     for expensevalue in expensequeryset:
         if expensevalue.category not in expenselabels:
@@ -230,14 +234,12 @@ def budgetcharters(request):
     budgetqueryset = Budget.objects.filter(userin=request.user).order_by('dot')
     budgetlinequeryset = Budget.objects.filter(userin=request.user).order_by('dot')
     automobilebudget = Budget.objects.filter(userin = request.user,category = 'Automobile').aggregate(total = Sum('budget'))
+    grocerybudget = Budget.objects.filter(userin = request.user,category = 'Groceries').aggregate(total = Sum('budget'))
     foodbudget = Budget.objects.filter(userin = request.user,category = 'Food').aggregate(total = Sum('budget'))
     electricitybudget = Budget.objects.filter(userin = request.user,category = 'Electricity').aggregate(total = Sum('budget'))
     watersupplybudget = Budget.objects.filter(userin = request.user,category = 'Water Supply').aggregate(total = Sum('budget'))
     entertainmentbudget = Budget.objects.filter(userin= request.user,category = 'Entertainment').aggregate(total = Sum('budget'))
     otherbudget= Budget.objects.filter(userin = request.user,category = 'Others').aggregate(total = Sum('budget'))
-    for budgetvalue in budgetqueryset:
-        if budgetvalue.category not in budgetlabels:
-            budgetlabels.append(budgetvalue.category)
     if automobilebudget['total'] is None:
         automobilebudget['total']  = 0
     if watersupplybudget['total'] is None:
@@ -248,10 +250,15 @@ def budgetcharters(request):
         electricitybudget['total'] = 0
     if entertainmentbudget['total'] is None:
         entertainmentbudget['total'] = 0
+    if grocerybudget['total'] is None:
+        grocerybudget['total'] = 0
     if otherbudget['total'] is None:
         otherbudget['total'] = 0
-    budgetdatas.extend([automobilebudget['total'],foodbudget['total'],electricitybudget['total'],watersupplybudget['total'],entertainmentbudget['total'],otherbudget['total']])
+    budgetdatas.extend([automobilebudget['total'],foodbudget['total'],grocerybudget['total'],electricitybudget['total'],watersupplybudget['total'],entertainmentbudget['total'],otherbudget['total']])
     budgetdatas.sort(reverse = True)
+    for budgetvalue in budgetqueryset:
+        if budgetvalue.category not in budgetlabels:
+            budgetlabels.append(budgetvalue.category)
     for budgetvalue in budgetqueryset:
         budgetlinelabels.append(budgetvalue.dot_pretty())
         budgetlinedatas.append(budgetvalue.budget)

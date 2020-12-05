@@ -11,6 +11,7 @@ class Expense(models.Model):
     Category_Choices = [
         ('Food','Food'),
         ('Automobile','Automobile'),
+        ('Groceries','Groceries'),
         ('Electricity','Electricity'),
         ('Water Supply','Water Supply'),
         ('Entertainment','Entertainment'),
@@ -42,6 +43,7 @@ class Budget(models.Model):
     Budget_Category_Choices = [
         ('Food','Food'),
         ('Automobile','Automobile'),
+        ('Groceries','Groceries'),
         ('Electricity','Electricity'),
         ('Water Supply','Water Supply'),
         ('Entertainment','Entertainment'),

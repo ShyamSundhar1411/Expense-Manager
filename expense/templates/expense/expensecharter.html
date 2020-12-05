@@ -4,23 +4,27 @@
   <br/>
   <h2>Expense Analysis</h2>
   <hr/>
-    <div class='container  align-center'>
-      <div class = 'row'>
-        <div class = 'col-lg-4 col-md-6' style = 'width:50%;'>
-          <canvas id="expense-pie-chart" style = 'width: 50%;'></canvas>
-        </div>
-        <div class = 'col-lg-4 col-md-6'style = 'width:50%;'>
-          <canvas id="expense-bar-chart" style = ' width: 50%; height: 50%;' ></canvas>
-        </div>
+  <div class=" container align-items-center">
+    <div class = 'row'>
+      <div class = 'col-lg-4 col-md-6' style = 'width:50%;'>
+        <canvas id="expense-pie-chart" style = 'width: 50%;'></canvas>
+      </div>
+      <div class = 'col-lg-2'>
+        <br/>
+        <br/>
+      </div>
+      <div class = 'col-lg-6 col-md-6'>
+        <canvas id="expense-bar-chart" height="250" width = '300'></canvas>
       </div>
     </div>
+  </div>
   <br/>
   <br/>
-    <div class = 'row inline-block'>
-      <canvas id="expense-line-chart" style = 'width: 545.406px; height: 172px;'></canvas>
-    </div>
-    <br/>
-    <a href = '{% url "detail" %}' class = 'btn  btn-success'><span class="oi oi-arrow-left"></a>
+  <div class = 'row inline-block'>
+    <canvas id="expense-line-chart" style = 'width: 545.406px; height: 172px;'></canvas>
+  </div>
+  <br/>
+  <a href = '{% url "detail" %}' class = 'btn  btn-success'><span class="oi oi-arrow-left"></a>
   </div>
   <script>
 
@@ -30,8 +34,10 @@
       datasets: [{
         data: {{ expensedatas|safe }},
         backgroundColor: [
-          'springgreen','#5DA5DA', '#FAA43A', '#B276B2', '#F17CB0','violet'
+          '#DC143C','#7FFF00','#7B68EE','#FF4500','#FFD700','#191970','#00FFFF'
+
         ],
+        fillColor: '#0066ff',
         borderColor: 'black',
         label: 'Expense'
       }],
@@ -50,8 +56,12 @@
         data: {{ expensedatas|safe }},
         fill: false,
         backgroundColor: [
-          'aquamarine','#5DA5DA', '#FAA43A', '#B276B2', '#F17CB0'
+            '#DC143C','#7FFF00','#7B68EE','#FF4500','#FFD700','#191970','#00FFFF'
         ],
+        borderColor:[
+          'black','black','black','black','black'
+        ],
+        borderWidth: 1,
         label: 'Expense'
       }],
       labels: {{ expenselabels|safe }}
@@ -73,27 +83,27 @@
       },
     }
   };
- var expenselinechart = {
-   type: 'line',
-   data: {
-     datasets:[{
-       data: {{linedatas|safe}},
-       hoverBackgroundColor: 'white',
-       label: 'Expense',
-       borderColor: '#008b8b',
-       backgroundColor: 'rgba(0,0,0,0)',
-     }],
-     labels: {{linelabels|safe}}
-   },
-   options: {
-     responsive: true,
-     yAxes: [{
-       ticks: {
-         beginAtZero: true
-       },
-   }],
- },
- };
+  var expenselinechart = {
+    type: 'line',
+    data: {
+      datasets:[{
+        data: {{linedatas|safe}},
+        hoverBackgroundColor: 'white',
+        label: 'Expense',
+        borderColor: '#FF6347',
+        backgroundColor: 'rgba(0,0,0,0)',
+      }],
+      labels: {{linelabels|safe}}
+    },
+    options: {
+      responsive: true,
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        },
+      }],
+    },
+  };
 
   window.onload = function() {
     var ctx = document.getElementById('expense-pie-chart').getContext('2d');
@@ -103,6 +113,9 @@
     var ctx2 = document.getElementById('expense-line-chart').getContext('2d');
     window.myLine = new Chart(ctx2, expenselinechart);
   };
+  $(document).ready(function () {
+    $('#page').fadeIn(1000).removeClass('hidden');
+  });
   </script>
 
 </div>
