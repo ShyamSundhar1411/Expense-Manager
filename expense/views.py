@@ -216,11 +216,12 @@ def expensecharters(request):
         entertainmentexpense['total'] = 0
     if otherexpense['total'] is None:
         otherexpense['total'] = 0
-    expensedatas.extend([automobileexpense['total'],foodexpense['total'],groceryexpense['total'],electricityexpense['total'],watersupplyexpense['total'],entertainmentexpense['total'],otherexpense['total']])
-    expensedatas.sort(reverse = True)
-    for expensevalue in expensequeryset:
-        if expensevalue.category not in expenselabels:
-            expenselabels.append(expensevalue.category)
+    expensedatastemp = {'Automobile':automobileexpense['total'],'Food':foodexpense['total'],'Groceries':groceryexpense['total'],'Entertainment':entertainmentexpense['total'],'Electricity':electricityexpense['total'],'Water Supply':watersupplyexpense['total'],'Others':otherexpense['total']}
+    for i in expensedatastemp.keys():
+        if not i in expenselabels:
+            if expensedatastemp[i] !=0 :
+                expenselabels.append(i)
+                expensedatas.append(expensedatastemp[i])
     for expensevalue in expenselinequeryset:
         expenselinelabels.append(expensevalue.dot_pretty())
         expenselinedatas.append(expensevalue.expense)
@@ -254,11 +255,12 @@ def budgetcharters(request):
         grocerybudget['total'] = 0
     if otherbudget['total'] is None:
         otherbudget['total'] = 0
-    budgetdatas.extend([automobilebudget['total'],foodbudget['total'],grocerybudget['total'],electricitybudget['total'],watersupplybudget['total'],entertainmentbudget['total'],otherbudget['total']])
-    budgetdatas.sort(reverse = True)
-    for budgetvalue in budgetqueryset:
-        if budgetvalue.category not in budgetlabels:
-            budgetlabels.append(budgetvalue.category)
+    budgetdatastemp = {'Automobile':automobilebudget['total'],'Food':foodbudget['total'],'Groceries':grocerybudget['total'],'Entertainment':entertainmentbudget['total'],'Electricity':electricitybudget['total'],'Water Supply':watersupplybudget['total'],'Others':otherbudget['total']}
+    for i in budgetdatastemp.keys():
+        if not i in budgetlabels:
+            if budgetdatastemp[i] !=0 :
+                budgetlabels.append(i)
+                budgetdatas.append(budgetdatastemp[i])
     for budgetvalue in budgetqueryset:
         budgetlinelabels.append(budgetvalue.dot_pretty())
         budgetlinedatas.append(budgetvalue.budget)
