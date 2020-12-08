@@ -12,6 +12,7 @@ django-schema-graph = "*"
 django-widget-tweaks = "*"
 djangorestframework = "*"
 social-auth-app-django = "*"
+django-filter = "*"
 
 [dev-packages]
 
