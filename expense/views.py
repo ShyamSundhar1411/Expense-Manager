@@ -101,7 +101,7 @@ def home(request):
 def add(request):
     if request.method=='POST':
         try:
-            form = ExpenseCreationForm(request.POST)
+            form = ExpenseCreationForm(request.POST,request.FILES)
             newform = form.save(commit=False)
             newform.expenser = request.user
             newform.save()
