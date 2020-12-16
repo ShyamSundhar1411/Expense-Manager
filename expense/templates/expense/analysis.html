@@ -4,12 +4,12 @@
 <div class='container'>
   <h1>Analysis</h1>
   <hr/>
-  <div class="col-md-4 ">
+  <div class="col-lg-4 ">
     <form action = "{% url 'report' %}">
       <select name = 'repo'>
         <option value = 'Expense'>Expense Reports</option>
         <option value = 'Budget'>Budget Reports</option>
-      </select> <input type = 'submit' value = 'Generate Reports' class = 'btn btn-primary'/>
+      </select> <button type = 'submit' class = 'btn btn-primary'>Generate Reports</button>
     </form>
   </div>
   <br/>
@@ -41,16 +41,15 @@
           </div>
         </div>
       </div>
-      <div class = 'container'>
-        <div class = 'container' style = 'width: 75%;'>
-          <canvas id = 'mixedchart' style = 'width: 50%;'></canvas>
+      <div class = 'container' >
+        <div class = 'container' style="position: relative;">
+          <canvas id = 'mixedchart'></canvas>
         </div>
       </div>
-
       <div class='container d-inline-block'>
-        <a href ='{% url "detail" %} ' class = 'btn btn-primary' style = 'color:white;text-decoration:none;'>Dashboard</a>
-        <a href ='{% url "expense" %} ' class = 'btn btn-primary' style = 'color:white;text-decoration:none;' >Add Expense</a>
-        <a href ='{% url "budget" %} ' class = 'btn btn-primary' style = 'color:white;text-decoration:none;'>Add Budget</a>
+        <a href ='{% url "detail" %} ' class = 'btn btn-primary'>Dashboard</a>
+        <a href ='{% url "expense" %} ' class = 'btn btn-primary'>Add Expense</a>
+        <a href ='{% url "budget" %} ' class = 'btn btn-primary'>Add Budget</a>
       </div>
     </div>
   </div>
