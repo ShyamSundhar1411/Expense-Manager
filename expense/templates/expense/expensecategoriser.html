@@ -9,10 +9,10 @@
   <br/>
   <div class = 'row'>
     {% for expense in filterer.qs %}
-    <div class="col-md-4 ">
+    <div class="col-md-4">
       <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative card border-dark mb-3">
         <div class="col p-4 d-flex flex-column position-static bg-white " >
-          <strong><h3 class="mb-0">{{expense.title}}</h3></strong>
+          <h3>{{expense.title}}</h3>
           <div class="mb-1 text-muted"><span class="oi oi-clock" ></span> {{expense.dot_pretty}}<span/></div>
           <p class="card-text mb-auto" style = 'font-size:20px;'>Expense: $ {{expense.expense}}</p>
           <p class="card-text mb-auto" style = 'font-size:20px;'>Category: {{expense.category}}</p>
@@ -22,9 +22,9 @@
           {% else %}
           <p class="card-text mb-auto" style = 'font-size:20px;'>Receipt: -</p>
           {% endif %}
-          <div class = 'inline-block'>
-            <a class = 'btn btn-danger btn-icon rounded-pill ' style = 'width:47%;' href ='{% url "delexp" expense.id %}'>Delete</a>
-            <a class = 'btn btn-success btn-icon rounded-pill ' style = 'width:47%;' href ='{% url "update" expense.id %}'>Update</a>
+          <div class = 'd-inline-block'>
+            <a class = 'btn btn-danger btn-icon rounded-pill ' style = 'width:auto;' href ='{% url "delexp" expense.id %}'>Delete</a>
+            <a class = 'btn btn-success btn-icon rounded-pill ' style = 'width:auto;' href ='{% url "update" expense.id %}'>Update</a>
           </div>
         </div>
       </div>
