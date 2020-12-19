@@ -182,8 +182,8 @@ def report(request):
         response['Content-Disposition'] = 'attachment;filename = "Expense_reports.csv"'
         return response
     else:
-        writer.writerow(['Budget','Source','Last Updated'])
-        for i in Budget.objects.filter(userin= request.user).extra(select={'date':'dot'}).values_list('budget','source','date'):
+        writer.writerow(['Budget','Source','Category','Last Updated'])
+        for i in Budget.objects.filter(userin= request.user).extra(select={'date':'dot'}).values_list('budget','source','category','date'):
                 writer.writerow(i)
         response['Content-Disposition'] = 'attachment;filename = "Budget_reports.csv"'
         return response
