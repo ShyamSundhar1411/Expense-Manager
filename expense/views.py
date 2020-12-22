@@ -107,7 +107,7 @@ def add(request):
             newform.save()
             return redirect('detail')
         except ValueError:
-            return render(request, 'expense/add.html', {'form':TodoForm(), 'error':'Bad data passed in. Try again.'})
+            return render(request, 'expense/add.html', {'form':ExpenseCreationForm(), 'error': messages.error(request,'Bad data passed in. Try again.')})
 
     else:
         return render(request,'expense/add.html',{'form':ExpenseCreationForm()})
@@ -121,7 +121,7 @@ def budget(request):
                 newform.save()
                 return redirect('detail')
             except ValueError:
-                return render(request, 'expense/budget.html', {'form':TodoForm(), 'error':'Bad data passed in. Try again.'})
+                return render(request, 'expense/budget.html', {'form':BudgetCreationForm(), 'error': messages.error(request,'Bad data passed in. Try again.')})
 
         else:
             return render(request,'expense/budget.html',{'form':BudgetCreationForm()})
