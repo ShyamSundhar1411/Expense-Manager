@@ -38,7 +38,13 @@
       labels: {{ budgetlabels|safe }}
     },
     options: {
-      responsive: true
+      responsive: true,
+      legend: {
+        labels: {
+          fontColor: 'black',
+          fontFamily:'Helvetica Neue',
+        }
+      },
     }
   };
   var budgetbarchart = {
@@ -62,6 +68,12 @@
     },
     options: {
       responsive: true,
+      legend: {
+        labels: {
+          fontColor: 'black',
+          fontFamily:'Helvetica Neue',
+        }
+      },
       scales: {
         yAxes: [{
           ticks: {
@@ -73,6 +85,9 @@
         xAxes: [{
           categoryPercentage: 0.4,
           barPercentage: 0.4,
+          gridLines: {
+                offsetGridLines: true
+            },
         }]
       }
     },
@@ -85,13 +100,20 @@
         hoverBackgroundColor: 'white',
         backgroundColor: '#008b8b',
         label: 'Budget',
-        borderColor: '#7CFC00',
-        backgroundColor: 'rgba(0,0,0,0)',
+        borderColor: 'rgb(110,0,255)',
+        pointBorderColor: 'rgb(110,0,255)',
+        backgroundColor: 'rgba(110,0,255,0.3)',
       }],
       labels: {{linelabels|safe}}
     },
     options: {
       responsive: true,
+      legend: {
+        labels: {
+          fontColor: 'black',
+          fontFamily:'Helvetica Neue',
+        }
+      },
       scales: {
         yAxes: [{
           ticks: {

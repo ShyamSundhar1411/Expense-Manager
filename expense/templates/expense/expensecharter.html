@@ -44,7 +44,13 @@
       labels: {{ expenselabels|safe }}
     },
     options: {
-      responsive: true
+      responsive: true,
+      legend: {
+        labels: {
+          fontColor: 'black',
+          fontFamily:'Helvetica Neue',
+        }
+      },
     }
   };
   var expensebarchart = {
@@ -68,6 +74,12 @@
     },
     options: {
       responsive: true,
+      legend: {
+        labels: {
+          fontColor: 'black',
+          fontFamily:'Helvetica Neue',
+        }
+      },
       scales: {
         yAxes: [{
           ticks: {
@@ -90,13 +102,20 @@
         data: {{linedatas|safe}},
         hoverBackgroundColor: 'white',
         label: 'Expense',
-        borderColor: '#FF6347',
-        backgroundColor: 'rgba(0,0,0,0)',
+        borderColor: 'rgb(255,0,0)',
+        pointBorderColor: 'rgb(255,0,0)',
+        backgroundColor: 'rgba(255,0,0,0.2)',
       }],
       labels: {{linelabels|safe}}
     },
     options: {
       responsive: true,
+      legend: {
+        labels: {
+          fontColor: 'black',
+          fontFamily:'Helvetica Neue',
+        }
+      },
       yAxes: [{
         ticks: {
           beginAtZero: true
