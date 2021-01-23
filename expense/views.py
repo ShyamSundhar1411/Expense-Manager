@@ -15,6 +15,7 @@ from .filters import ExpenseFilter,BudgetFilter
 from .forms import UserCreationForm,ExpenseCreationForm,BudgetCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
+from .tasks import send_email_task_on_signup
 import csv
 #Class Based Views
 #Authentication
@@ -27,6 +28,7 @@ class Signup(generic.CreateView):
         username, password = form.cleaned_data.get('username'),form.cleaned_data.get('password1')
         user = authenticate(username = username,password = password)
         login(self.request,user)
+        send_email_task_on_signup(self.request.user.id)
         return v
 
 #CRUD

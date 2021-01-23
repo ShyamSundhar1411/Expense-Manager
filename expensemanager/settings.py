@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'schema_graph',
     'django_filters',
+    'django_celery_results',
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -183,7 +184,9 @@ MESSAGE_TAGS = {
         messages.WARNING: 'alert-warning',
         messages.ERROR: 'alert-danger',
  }
-GRAPH_MODELS = {
-  'all_applications': True,
-  'group_models': True,
-}
+GRAPH_MODELS = GRAPH_MODELS
+CELERY_RESULT_BACKEND = CELERY_RESULT_BACKEND
+CELERY_CACHE_BACKEND = CELERY_CACHE_BACKEND
+
+# django setting.
+CACHES = CACHES
