@@ -13,7 +13,7 @@ from django.contrib import messages
 from .filters import ExpenseFilter,BudgetFilter
 from .forms import UserCreationForm,ExpenseCreationForm,BudgetCreationForm
 from .models import Expense,Budget
-from .tasks import send_email_task_on_signup
+from .tasks import send_email_task_on_signup,send_email_alert,send_email_alert_funds
 #Class Based Views
 #Authentication
 class Signup(generic.CreateView):
@@ -133,8 +133,9 @@ def detail(request):
     if  totalbudget['total'] is None or totalexpense['total'] is None:
         return render(request,'expense/detail.html',{'hey':w,'bud':i})
     elif totalbudget['total']-totalexpense['total'] < 100   :
-        messages.error(request, "Your total expense is higher than the allocated budgets." )
+        messages.error(request, "Your total expenses are higher than the allocated budgets." )
         messages.info(request, "Kindly manage your expenses accordingly in these categories [food/automobile/water supply/electricity/entertainment/others]" )
+        send_email_alert(request.user.id)
         return render(request,'expense/detail.html',{'hey':w,'bud':i})
     else:
         return render(request,'expense/detail.html',{'hey':w,'bud':i})
@@ -165,6 +166,7 @@ def analysis(request):
         else:
             if totalexpense['total']>totalbudget['total']:
                 messages.error(request, "*Not enough Funds. Add Budget to Continue. Remember Your initial expense value will be deducted from the new Budget amount. Your Account is locked until that" )
+                send_email_alert_funds(request.user.id)
                 return redirect('budget')
             else:
                 return render(request,'expense/analysis.html',{'hey':w,'bud':i,'totalexpense':totalexpense,'totalbudget':totalbudget,'expenselabels':expenselabels,'expensedatas':expensedatas,'budgetlabels':budgetlabels,'budgetdatas':budgetdatas})
