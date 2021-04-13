@@ -74,7 +74,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'expensemanager.urls'
-
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
