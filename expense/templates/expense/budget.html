@@ -5,7 +5,7 @@
   <br/>
   <h1>Add Budget</h1>
   <hr/>
-  <form method='POST' action="{% url 'budget' %}" enctype='multipart/form-data'>
+  <form method='POST' action="{% url 'addbudget' %}" enctype='multipart/form-data'>
     {% csrf_token %}
     {{form|crispy}}
     <button type = 'submit' class = 'btn btn-success'>Save</button>

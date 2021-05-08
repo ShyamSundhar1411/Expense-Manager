@@ -20,26 +20,26 @@
       </div>
     </div>
     </div>
-    <h1>Budget{{bud.count|pluralize}}</h1>
+    <h1>Budget{{budget_objects.count|pluralize}}</h1>
     <div class='container d-inline-block'>
       <div class = 'row '>
-        {% for bud in bud.all %}
+        {% for budget in budget_objects.all %}
         <div class = 'col-lg-4 col-md-6'>
           <div class="card card border-success mb-3">
             <div class="card-body">
-              <h4 class="card-title">Budget-{{bud.dot|date:"F d"}}</h4>
+              <h4 class="card-title">Budget-{{budget.dot|date:"F d"}}</h4>
               <hr/>
               <div class='col-12'>
-                <p class="card-text"><h2>$ {{bud.budget}}</h2>
+                <p class="card-text"><h2>$ {{budget.budget}}</h2>
                 </div>
                 <div class='col-12'>
-                  <h5 class = 'card-text'>Category: {{bud.category}}</h5>
-                  <h5 class = 'card-text'>Source: {{bud.source}}</h5>
+                  <h5 class = 'card-text'>Category: {{budget.category}}</h5>
+                  <h5 class = 'card-text'>Source: {{budget.source}}</h5>
                 </div>
-                <h6 class = 'card-text' style='color:light;'><span class="oi oi-clock" style='padding:10px'></span> Last Updated : {{bud.dot_pretty}}</h6></p>
+                <h6 class = 'card-text' style='color:light;'><span class="oi oi-clock" style='padding:10px'></span> Last Updated : {{budget.dot_pretty}}</h6></p>
                 <div class = 'd-inline-block'>
-                  <a class = 'btn btn-success btn-icon rounded-pill' style = 'width:auto;' href ='{% url "budup" bud.id %}'>Update</a>
-                  <a class = 'btn btn-danger btn-icon rounded-pill' style = 'width:auto;' href ='{% url "buddel" bud.id %}'>Delete</a>
+                  <a class = 'btn btn-success btn-icon rounded-pill' style = 'width:auto;' href ='{% url "updatebudget" budget.id %}'>Update</a>
+                  <a class = 'btn btn-danger btn-icon rounded-pill' style = 'width:auto;' href ='{% url "deletebudget" budget.id %}'>Delete</a>
                 </div>
               </div>
             </div>
@@ -47,14 +47,14 @@
           {% endfor %}
         </div>
       </div>
-      <a href ='{% url "budget" %}' class = 'btn btn-info btn-icon rounded-pill' style = 'color:white;text-decoration:none;' id = 'r'>Add Budget</a>
+      <a href ='{% url "addbudget" %}' class = 'btn btn-info btn-icon rounded-pill' style = 'color:white;text-decoration:none;' id = 'r'>Add Budget</a>
       <br/>
       <br/>
-      <h1>Expense{{hey.count|pluralize}}</h1>
+      <h1>Expense{{expense_objects.count|pluralize}}</h1>
       <br/>
       <div class='container'>
         <div class = 'row'>
-          {% for expense in hey.all %}
+          {% for expense in expense_objects.all %}
           <div class="col-md-6 ">
             <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative card border-dark mb-3">
               <div class="col p-4 d-flex flex-column position-static bg-white " >
@@ -69,8 +69,8 @@
                 <p class="card-text mb-auto" style = 'font-size:20px;'>Receipt: -</p>
                 {% endif %}
                 <div class = 'inline-block'>
-                  <a class = 'btn btn-danger btn-icon rounded-pill ' style = 'width:47%;' href ='{% url "delexp" expense.id %}'>Delete</a>
-                  <a class = 'btn btn-success btn-icon rounded-pill ' style = 'width:47%;' href ='{% url "update" expense.id %}'>Update</a>
+                  <a class = 'btn btn-danger btn-icon rounded-pill ' style = 'width:47%;' href ='{% url "deleteexpense" expense.id %}'>Delete</a>
+                  <a class = 'btn btn-success btn-icon rounded-pill ' style = 'width:47%;' href ='{% url "updateexpense" expense.id %}'>Update</a>
                 </div>
               </div>
             </div>
@@ -79,7 +79,7 @@
         </div>
       </div>
       <div class='d-inline-block'>
-        <a href ='{% url "expense" %} ' class = 'btn btn-info btn-icon rounded-pill hover-translate-y-n4 mt-4'>Add Expense</a>
+        <a href ='{% url "addexpense" %} ' class = 'btn btn-info btn-icon rounded-pill hover-translate-y-n4 mt-4'>Add Expense</a>
         <a href ='{% url "analysis" %} ' class = 'btn btn-info btn-icon rounded-pill hover-translate-y-n3 mt-4'>View Analysis</a>
       </div>
     </div>

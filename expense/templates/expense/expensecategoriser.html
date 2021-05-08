@@ -23,8 +23,8 @@
           <p class="card-text mb-auto" style = 'font-size:20px;'>Receipt: -</p>
           {% endif %}
           <div class = 'd-inline-block'>
-            <a class = 'btn btn-danger btn-icon rounded-pill ' style = 'width:auto;' href ='{% url "delexp" expense.id %}'>Delete</a>
-            <a class = 'btn btn-success btn-icon rounded-pill ' style = 'width:auto;' href ='{% url "update" expense.id %}'>Update</a>
+            <a class = 'btn btn-danger btn-icon rounded-pill ' style = 'width:auto;' href ='{% url "deleteexpense" expense.id %}'>Delete</a>
+            <a class = 'btn btn-success btn-icon rounded-pill ' style = 'width:auto;' href ='{% url "updateexpense" expense.id %}'>Update</a>
           </div>
         </div>
       </div>

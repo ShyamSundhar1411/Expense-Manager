@@ -27,7 +27,7 @@
         <div class="card card border-success mb-3" >
           <div class="card-body">
             <a href = '{% url "expensecharter" %}' id = 'eanalytics'>
-              <h3 class="card-title" >Total Expense{{hey.count|pluralize}} :</h3>
+              <h3 class="card-title" >Total Expense{{expense_objects.count|pluralize}} :</h3>
               <h3 style = 'font-size:40px'>$ {{totalexpense.total}}</h3>
             </a>
           </div>
@@ -36,8 +36,8 @@
       <div class = 'col-lg-4 col-md-6'>
         <div class="card card border-success mb-3" >
           <div class="card-body">
-            <h3 class="card-title">Total Transaction{{hey.count|pluralize}}:</h3>
-            <h3 style = 'font-size:40px'>{{hey.count}}</h3>
+            <h3 class="card-title">Total Transaction{{expense_objects.count|pluralize}}:</h3>
+            <h3 style = 'font-size:40px'>{{expense_objects.count}}</h3>
           </div>
         </div>
       </div>
@@ -47,9 +47,9 @@
         </div>
       </div>
       <div class='container d-inline-block'>
-        <a href ='{% url "detail" %} ' class = 'btn btn-primary'>Dashboard</a>
-        <a href ='{% url "expense" %} ' class = 'btn btn-primary'>Add Expense</a>
-        <a href ='{% url "budget" %} ' class = 'btn btn-primary'>Add Budget</a>
+        <a href ='{% url "dashboard" %} ' class = 'btn btn-primary'>Dashboard</a>
+        <a href ='{% url "addexpense" %} ' class = 'btn btn-primary'>Add Expense</a>
+        <a href ='{% url "addbudget" %} ' class = 'btn btn-primary'>Add Budget</a>
       </div>
     </div>
   </div>

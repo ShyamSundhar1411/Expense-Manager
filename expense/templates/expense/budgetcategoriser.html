@@ -17,8 +17,8 @@
           <p class="card-text mb-auto" style = 'font-size:20px;'>Source: {{budget.source}}</p>
           <div class="mb-1 text-muted"><span class="oi oi-clock" ></span> {{budget.dot|date:"D, dS M, Y "}}<span/></div>
           <div class = 'd-inline-block'>
-            <a class = 'btn btn-success btn-icon rounded-pill' style = 'width:auto;' href ='{% url "budup" budget.id %}'>Update</a>
-            <a class = 'btn btn-danger btn-icon rounded-pill' style = 'width:auto;' href ='{% url "buddel" budget.id %}'>Delete</a>
+            <a class = 'btn btn-success btn-icon rounded-pill' style = 'width:auto;' href ='{% url "updatebudget" budget.id %}'>Update</a>
+            <a class = 'btn btn-danger btn-icon rounded-pill' style = 'width:auto;' href ='{% url "deletebudget" budget.id %}'>Delete</a>
           </div>
         </div>
       </div>

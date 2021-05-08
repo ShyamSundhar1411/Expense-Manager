@@ -32,45 +32,46 @@ class Signup(generic.CreateView):
 class Profile(LoginRequiredMixin,generic.UpdateView):
     model = User
     fields = ['username','email']
+    slug_field = 'username'
     success_url = reverse_lazy('profile')
     template_name = 'expense/updateprofile.html'
     def get_object(self,query_set = None):
         return self.request.user
-class Update(LoginRequiredMixin,generic.UpdateView):
+class UpdateExpense(LoginRequiredMixin,generic.UpdateView):
     model = Expense
     fields = ['title','expense','category','receipt','payment']
     template_name = 'expense/update.html'
-    success_url = reverse_lazy('detail')
+    success_url = reverse_lazy('dashboard')
     def get_object(self):
-        v = super(Update,self).get_object()
+        v = super(UpdateExpense,self).get_object()
         if not v.expenser == self.request.user:
             raise Http404
         return v
-class Upbud(LoginRequiredMixin,generic.UpdateView):
+class UpdateBudget(LoginRequiredMixin,generic.UpdateView):
     model = Budget
     fields = ['budget','source','category']
     template_name = 'expense/upbud.html'
-    success_url = reverse_lazy('detail')
+    success_url = reverse_lazy('dashboard')
     def get_object(self):
-        v = super(Upbud,self).get_object()
+        v = super(UpdateBudget,self).get_object()
         if not v.userin == self.request.user:
             raise Http404
         return v
-class DelBud(LoginRequiredMixin,generic.DeleteView):
+class DeleteBudget(LoginRequiredMixin,generic.DeleteView):
     model = Budget
     template_name = 'expense/deletebudget.html'
-    success_url = reverse_lazy('detail')
+    success_url = reverse_lazy('dashboard')
     def get_object(self):
-        v = super(DelBud,self).get_object()
+        v = super(DeleteBudget,self).get_object()
         if not v.userin == self.request.user:
             raise Http404
         return v
-class Delete(LoginRequiredMixin,generic.DeleteView):
+class DeleteExpense(LoginRequiredMixin,generic.DeleteView):
     model = Expense
     template_name = 'expense/delete.html'
-    success_url = reverse_lazy('detail')
+    success_url = reverse_lazy('dashboard')
     def get_object(self):
-        v = super(Delete,self).get_object()
+        v = super(DeleteExpense,self).get_object()
         if not v.expenser == self.request.user:
             raise Http404
         return v
@@ -97,53 +98,53 @@ class BudgetCategoriser(LoginRequiredMixin,generic.ListView):
 def home(request):
     return render(request,'expense/home.html')
 @login_required()
-def add(request):
+def addexpense(request):
     if request.method=='POST':
         try:
             form = ExpenseCreationForm(request.POST,request.FILES)
             newform = form.save(commit=False)
             newform.expenser = request.user
             newform.save()
-            return redirect('detail')
+            return redirect('dashboard')
         except ValueError:
             return render(request, 'expense/add.html', {'form':ExpenseCreationForm(), 'error': messages.error(request,'Bad data passed in. Try again.')})
 
     else:
         return render(request,'expense/add.html',{'form':ExpenseCreationForm()})
 @login_required()
-def budget(request):
+def addbudget(request):
         if request.method=='POST':
             try:
                 form = BudgetCreationForm(request.POST)
                 newform = form.save(commit=False)
                 newform.userin = request.user
                 newform.save()
-                return redirect('detail')
+                return redirect('dashboard')
             except ValueError:
                 return render(request, 'expense/budget.html', {'form':BudgetCreationForm(), 'error': messages.error(request,'Bad data passed in. Try again.')})
 
         else:
             return render(request,'expense/budget.html',{'form':BudgetCreationForm()})
 @login_required()
-def detail(request):
-    w = Expense.objects.filter(expenser=request.user).order_by('-dot')
-    i = Budget.objects.filter(userin=request.user)
+def dashboard(request):
+    expense = Expense.objects.filter(expenser=request.user).order_by('-dot')
+    budget = Budget.objects.filter(userin=request.user)
     totalbudget = Budget.objects.filter(userin=request.user).aggregate(total=Sum('budget'))
     totalexpense = Expense.objects.filter(expenser=request.user).aggregate(total=Sum('expense'))
     if  totalbudget['total'] is None or totalexpense['total'] is None:
-        return render(request,'expense/detail.html',{'hey':w,'bud':i})
+        return render(request,'expense/detail.html',{'expense_objects':expense,'budget_objects':budget})
     elif totalbudget['total']-totalexpense['total'] < 100   :
         messages.error(request, "Your total expenses are higher than the allocated budgets." )
         messages.info(request, "Kindly manage your expenses accordingly in these categories [food/automobile/water supply/electricity/entertainment/others]" )
         send_email_alert(request.user.id)
-        return render(request,'expense/detail.html',{'hey':w,'bud':i})
+        return render(request,'expense/detail.html',{'expense_objects':expense,'budget_objects':budget})
     else:
-        return render(request,'expense/detail.html',{'hey':w,'bud':i})
+        return render(request,'expense/detail.html',{'expense_objects':expense,'budget_objects':budget})
 @login_required()
 def analysis(request):
-        w = Expense.objects.filter(expenser=request.user).order_by('-dot')
+        expense = Expense.objects.filter(expenser=request.user).order_by('-dot')
         totalexpense = Expense.objects.filter(expenser=request.user).aggregate(total=Sum('expense'))
-        i = Budget.objects.filter(userin=request.user)
+        budget = Budget.objects.filter(userin=request.user)
         totalbudget = Budget.objects.filter(userin=request.user).aggregate(total=Sum('budget'))
         expenselabels = []
         expensedatas = []
@@ -159,17 +160,17 @@ def analysis(request):
             budgetdatas.append(budgetvalue.budget)
         if totalbudget['total'] is None:
             messages.info(request, "*Get Started by adding Budget*" )
-            return redirect('budget')
+            return redirect('addbudget')
         elif totalexpense['total'] is None:
             messages.info(request, "*Enter Expense to continue.*" )
-            return redirect('expense')
+            return redirect('addexpense')
         else:
             if totalexpense['total']>totalbudget['total']:
                 messages.error(request, "*Not enough Funds. Add Budget to Continue. Remember Your initial expense value will be deducted from the new Budget amount. Your Account is locked until that" )
                 send_email_alert_funds(request.user.id)
-                return redirect('budget')
+                return redirect('addbudget')
             else:
-                return render(request,'expense/analysis.html',{'hey':w,'bud':i,'totalexpense':totalexpense,'totalbudget':totalbudget,'expenselabels':expenselabels,'expensedatas':expensedatas,'budgetlabels':budgetlabels,'budgetdatas':budgetdatas})
+                return render(request,'expense/analysis.html',{'expense_objects':expense,'buget_objects':budget,'totalexpense':totalexpense,'totalbudget':totalbudget,'expenselabels':expenselabels,'expensedatas':expensedatas,'budgetlabels':budgetlabels,'budgetdatas':budgetdatas})
 def about(request):
     return render(request,'expense/about.html')
 @login_required()
