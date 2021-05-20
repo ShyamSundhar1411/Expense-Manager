@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+
+from PIL import Image
 
 # Create your models here.
 class Expense(models.Model):
@@ -20,7 +24,7 @@ class Expense(models.Model):
     ]
     category=models.CharField(max_length=150,choices = Category_Choices, default = 'Food' )
     expenser=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE)
-    receipt=models.ImageField(upload_to='images/', blank = True)
+    receipt=models.ImageField(upload_to='receipt/', blank = True)
     Payment_Choices = [
         ('Cash','Cash'),
         ('Credit Card','Credit Card'),
@@ -54,3 +58,26 @@ class Budget(models.Model):
     userin=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE)
     def dot_pretty(self):
         return self.dot.strftime('%b   %e   %Y')
+class Profile(models.Model):
+    user = models.OneToOneField(User,on_delete = models.CASCADE)
+    avatar = models.ImageField(upload_to = 'avatar/',default = 'avatar/default.png')
+    bio = models.TextField(blank = True,max_length = 500)
+
+
+    def __str__(self):
+        return self.user.username
+    def save(self,*args,**kwargs):
+        super(Profile,self).save(*args,**kwargs)
+        img = Image.open(self.avatar.path)
+        if img.height > 300 or img.width > 300:
+            output_size = (300,300)
+            img.thumbnail(output_size)
+            img.save(self.avatar.path)
+@receiver(post_save,sender = User)
+def create_profile(sender,instance,created,**kwargs):
+    if created:
+        Profile.objects.create(user = instance)
+        instance.profile.save()
+@receiver(post_save, sender=User)
+def save_profile(sender, instance, **kwargs):
+    instance.profile.save()

@@ -12,7 +12,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from .filters import ExpenseFilter,BudgetFilter
 from .forms import UserCreationForm,ExpenseCreationForm,BudgetCreationForm
-from .models import Expense,Budget
+from .models import Expense,Budget,Profile
 from .tasks import send_email_task_on_signup,send_email_alert,send_email_alert_funds
 #Class Based Views
 #Authentication
@@ -29,14 +29,28 @@ class Signup(generic.CreateView):
         return v
 
 #CRUD
-class Profile(LoginRequiredMixin,generic.UpdateView):
+class ProfileView(LoginRequiredMixin,generic.UpdateView):
     model = User
     fields = ['username','email']
     slug_field = 'username'
-    success_url = reverse_lazy('profile')
     template_name = 'expense/updateprofile.html'
-    def get_object(self,query_set = None):
+    def get_object(self,queryset = None):
         return self.request.user
+    def get_success_url(self, *args, **kwargs):
+        if 'slug' in self.kwargs:
+            slug = self.kwargs['slug']
+        return reverse_lazy("userprofile",kwargs={'slug': slug})
+class Personalization(LoginRequiredMixin,generic.UpdateView):
+    model = Profile
+    fields = ['avatar','bio']
+    slug_filed = 'username'
+    template_name = 'expense/personalization.html'
+    def get_object(self,queryset = None):
+        return self.request.user.profile
+    def get_success_url(self, *args, **kwargs):
+        if 'slug' in self.kwargs:
+            slug = self.kwargs['slug']
+        return reverse_lazy("personalization",kwargs={'slug': slug})
 class UpdateExpense(LoginRequiredMixin,generic.UpdateView):
     model = Expense
     fields = ['title','expense','category','receipt','payment']

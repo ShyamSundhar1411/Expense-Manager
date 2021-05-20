@@ -11,7 +11,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('expense/',include('expense.urls')),
     path('',views.home,name='home'),
-    path('<slug:slug>/profile/',views.Profile.as_view(),name = 'profile'),
+    path('<slug:slug>/profile/',views.ProfileView.as_view(),name = 'userprofile'),
+    path('<slug:slug>/profile/personlizations',views.Personalization.as_view(),name = 'personalization'),
     path('about/',views.about,name='about'),
     #Authentications
     path('signup',views.Signup.as_view(),name = 'signup'),
