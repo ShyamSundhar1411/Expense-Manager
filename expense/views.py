@@ -11,7 +11,7 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from .filters import ExpenseFilter,BudgetFilter
-from .forms import UserCreationForm,ExpenseCreationForm,BudgetCreationForm
+from .forms import UserCreationForm,ExpenseCreationForm,BudgetCreationForm,UserProfileForm,ProfileForm
 from .models import Expense,Budget,Profile
 from .tasks import send_email_task_on_signup,send_email_alert,send_email_alert_funds
 #Class Based Views
@@ -29,28 +29,6 @@ class Signup(generic.CreateView):
         return v
 
 #CRUD
-class ProfileView(LoginRequiredMixin,generic.UpdateView):
-    model = User
-    fields = ['username','email']
-    slug_field = 'username'
-    template_name = 'expense/updateprofile.html'
-    def get_object(self,queryset = None):
-        return self.request.user
-    def get_success_url(self, *args, **kwargs):
-        if 'slug' in self.kwargs:
-            slug = self.kwargs['slug']
-        return reverse_lazy("userprofile",kwargs={'slug': slug})
-class Personalization(LoginRequiredMixin,generic.UpdateView):
-    model = Profile
-    fields = ['avatar','bio']
-    slug_filed = 'username'
-    template_name = 'expense/personalization.html'
-    def get_object(self,queryset = None):
-        return self.request.user.profile
-    def get_success_url(self, *args, **kwargs):
-        if 'slug' in self.kwargs:
-            slug = self.kwargs['slug']
-        return reverse_lazy("personalization",kwargs={'slug': slug})
 class UpdateExpense(LoginRequiredMixin,generic.UpdateView):
     model = Expense
     fields = ['title','expense','category','receipt','payment']
@@ -281,3 +259,19 @@ def budgetcharters(request):
         budgetlinelabels.append(budgetvalue.dot_pretty())
         budgetlinedatas.append(budgetvalue.budget)
     return render(request, 'expense/budgetcharter.html', {'budgetlabels': budgetlabels,'budgetdatas': budgetdatas,'linelabels':budgetlinelabels,'linedatas':budgetlinedatas})
+@login_required
+def profile(request,slug):
+    if request.method == 'POST':
+        user_form = UserProfileForm(request.POST,instance = request.user)
+        profile_form = ProfileForm(request.POST,request.FILES,instance = request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request,'Profile Update Successfully')
+            return redirect('userprofile',slug = request.user.profile.slug)
+        else:
+            return render(request, 'expense/updateprofile.html', {'user_form':user_form,'profile_form':profile_form,'user_form_errors':user_form.errors,'profile_form_errors':profile_form.errors})
+    else:
+        user_form = UserProfileForm(instance = request.user)
+        profile_form = ProfileForm(instance = request.user.profile)
+    return render(request,'expense/updateprofile.html',{'user_form':user_form,'profile_form':profile_form})

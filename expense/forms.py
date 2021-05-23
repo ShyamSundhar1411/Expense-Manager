@@ -15,3 +15,12 @@ class ExpenseCreationForm(forms.ModelForm):
     class Meta:
         model = Expense
         fields = ('title','expense','category','receipt','payment')
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('username','email')
+class ProfileForm(forms.ModelForm):
+    avatar = forms.ImageField(label= ('Avatar'),required=False, error_messages = {'invalid':("Image files only")}, widget=forms.FileInput)
+    class Meta:
+        model = Profile
+        fields = ('avatar','bio')

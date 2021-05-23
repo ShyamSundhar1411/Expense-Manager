@@ -7,15 +7,43 @@
   <hr/>
   <form method = 'POST' enctype = 'multipart/form-data'>
     {% csrf_token %}
-    {{form|crispy}}
-    <a class="btn btn-warning" href="{% url 'personalization' user.username %}"> Explore More Customizations &#8594;</a>
-    <br/>
-    <br/>
-    <a href = '{% url "new_password" %}' class = 'btn btn-primary'>Reset Password</a>
-    <br/>
-    <br/>
-    <button type = 'submit' class = 'btn btn-success'>Update Profile</button>
-  </form>
-
-</div>
-{% endblock %}
+    <div class="row ">
+      <div class="col-sm-4">
+        <div class="card card-body border border-dark" style = 'margin-bottom: 15px;'>
+          <hr>
+          <h3 style="text-align: center">Account Settings</h3>
+          <hr>
+          <img class="rounded-circle mx-auto border border-dark" width = 150 height = 150 src="{{user.profile.avatar.url}}" >
+          <form method = 'POST' enctype = "multipart/form-data">
+            {% csrf_token %}
+            <div class = 'col'>
+              {{profile_form.avatar|as_crispy_field}}
+            </div>
+          </div>
+        </div>
+        <br/>
+        <br/>
+        <div class="col-md-8-mt-3">
+          <div class="card card-body border border-dark">
+            <div class = 'form-row'>
+              <div class = 'col-md-6'>
+                {{user_form.username|as_crispy_field}}
+              </div>
+              <div class = 'col-md-6'>
+                {{user_form.email|as_crispy_field}}
+              </div>
+            </div>
+            <div class = 'form-row'>
+              <div class = 'col-sm'>
+                {{profile_form.bio|as_crispy_field}}
+              </div>
+            </div>
+            <div class = 'inline-block'>
+              <button class="btn btn-primary" style = "width:49%" type="submit">Update Profile</button>
+              <a href = '{% url "new_password" %}' style = "width:49%" class = 'btn btn-primary'>New Password</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endblock %}

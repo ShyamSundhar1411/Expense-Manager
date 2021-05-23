@@ -4,9 +4,9 @@ from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.dispatch import receiver
 from django.db.models.signals import post_save
-
+from django.utils.text import slugify
+import uuid
 from PIL import Image
-
 # Create your models here.
 class Expense(models.Model):
     title=models.CharField(max_length=100)
@@ -62,17 +62,21 @@ class Profile(models.Model):
     user = models.OneToOneField(User,on_delete = models.CASCADE)
     avatar = models.ImageField(upload_to = 'avatar/',default = 'avatar/default.png')
     bio = models.TextField(blank = True,max_length = 500)
+    slug = models.SlugField(blank = True,max_length = 100)
 
 
     def __str__(self):
         return self.user.username
     def save(self,*args,**kwargs):
+        if not self.slug:
+            self.slug = uuid.uuid4()
         super(Profile,self).save(*args,**kwargs)
         img = Image.open(self.avatar.path)
         if img.height > 300 or img.width > 300:
             output_size = (300,300)
             img.thumbnail(output_size)
             img.save(self.avatar.path)
+
 @receiver(post_save,sender = User)
 def create_profile(sender,instance,created,**kwargs):
     if created:

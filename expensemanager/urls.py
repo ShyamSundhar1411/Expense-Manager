@@ -11,12 +11,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('expense/',include('expense.urls')),
     path('',views.home,name='home'),
-    path('<slug:slug>/profile/',views.ProfileView.as_view(),name = 'userprofile'),
-    path('<slug:slug>/profile/personlizations',views.Personalization.as_view(),name = 'personalization'),
+    path('<slug:slug>/profile/',views.profile,name = 'userprofile'),
     path('about/',views.about,name='about'),
     #Authentications
     path('signup',views.Signup.as_view(),name = 'signup'),
-    path('login',auth_views.LoginView.as_view(),name = 'login'),
+    path('login',auth_views.LoginView.as_view(redirect_authenticated_user=True),name = 'login'),
     path('logout',auth_views.LogoutView.as_view(),name = 'logout'),
     #Password Verification
     path('password/reset',auth_views.PasswordResetView.as_view(),name = 'password_reset'),
