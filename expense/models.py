@@ -71,12 +71,6 @@ class Profile(models.Model):
         if not self.slug:
             self.slug = uuid.uuid4()
         super(Profile,self).save(*args,**kwargs)
-        img = Image.open(self.avatar.path)
-        if img.height > 300 or img.width > 300:
-            output_size = (300,300)
-            img.thumbnail(output_size)
-            img.save(self.avatar.path)
-
 @receiver(post_save,sender = User)
 def create_profile(sender,instance,created,**kwargs):
     if created:
