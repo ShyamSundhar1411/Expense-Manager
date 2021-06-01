@@ -2,6 +2,7 @@
 {% block content %}
 {% load widget_tweaks %}
 {% load crispy_forms_tags %}
+{% load static %}
 <div class = 'container'>
   <h2>{{user.username}}'s Profile </h2>
   <hr/>
@@ -13,7 +14,11 @@
           <hr>
           <h3 style="text-align: center">Account Settings</h3>
           <hr>
-          <img class="rounded-circle mx-auto border border-dark" width = 150 height = 150 src="{{user.profile.avatar.url}}" >
+          {% if user.profile.avatar %}
+          <img class="rounded-circle mx-auto border border-dark" width = 150 height = 150 src="{{user.profile.avatar.url}}">
+          {% else %}
+          <img class="rounded-circle mx-auto border border-dark" width = 150 height = 150 src="{% static 'default.png' %}" >
+          {% endif %}
           <form method = 'POST' enctype = "multipart/form-data">
             {% csrf_token %}
             <div class = 'col'>
