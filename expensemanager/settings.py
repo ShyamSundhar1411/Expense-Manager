@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     #Third Party Modules and Frameworks
     'mathfilters',
     'widget_tweaks',
@@ -138,14 +140,19 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': env.str('CLOUD_NAME'),
+    'API_KEY': env.str('API_KEY'),
+    'API_SECRET': env.str('API_SECRET')
+}
 STATICFILES_DIRS=[
         os.path.join(BASE_DIR,'expensemanager/static')
 ]
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL  = '/media/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 STATIC_ROOT=os.path.join(BASE_DIR,'static')
 STATIC_URL = '/static/'
 LOGIN_URL = 'login'

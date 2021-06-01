@@ -24,7 +24,7 @@ class Expense(models.Model):
     ]
     category=models.CharField(max_length=150,choices = Category_Choices, default = 'Food' )
     expenser=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE)
-    receipt=models.ImageField(upload_to='receipt/', blank = True)
+    receipt=models.ImageField(upload_to='images/', blank = True)
     Payment_Choices = [
         ('Cash','Cash'),
         ('Credit Card','Credit Card'),
@@ -60,7 +60,7 @@ class Budget(models.Model):
         return self.dot.strftime('%b   %e   %Y')
 class Profile(models.Model):
     user = models.OneToOneField(User,on_delete = models.CASCADE)
-    avatar = models.ImageField(upload_to = 'avatar/',blank = True)
+    avatar = models.ImageField(upload_to = 'images/',blank = True)
     bio = models.TextField(blank = True,max_length = 500)
     slug = models.SlugField(blank = True,max_length = 100)
 
