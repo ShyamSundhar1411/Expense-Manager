@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-
+import django_heroku
+import dj_database_url
 import os
 from .secret import *
 from django.contrib.messages import constants as messages
@@ -24,9 +25,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['expensemanejar.herokuapp.com','www.expensemanejar.com','expensemanejar.com']
 
 
 # Application definition
@@ -71,6 +72,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'expensemanager.urls'
@@ -99,10 +101,7 @@ WSGI_APPLICATION = 'expensemanager.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': dj_database_url.config()
 }
 
 
@@ -192,3 +191,5 @@ CELERY_CACHE_BACKEND = CELERY_CACHE_BACKEND
 
 # django setting.
 CACHES = CACHES
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+django_heroku.settings(locals())
