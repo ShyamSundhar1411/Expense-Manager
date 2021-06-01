@@ -60,7 +60,7 @@ class Budget(models.Model):
         return self.dot.strftime('%b   %e   %Y')
 class Profile(models.Model):
     user = models.OneToOneField(User,on_delete = models.CASCADE)
-    avatar = models.ImageField(upload_to = 'avatar/',default = 'avatar/default.png')
+    avatar = models.ImageField(upload_to = 'avatar/',default = '/static/default.png')
     bio = models.TextField(blank = True,max_length = 500)
     slug = models.SlugField(blank = True,max_length = 100)
 
