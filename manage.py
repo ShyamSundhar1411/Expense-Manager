@@ -5,7 +5,14 @@ import sys
 
 
 def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'expensemanager.settings')
+    if os.getcwd() != '/app':
+        try:
+            os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'expensemanager.local_settings')
+        except:
+            print('Looks Like the local settings are missing. Importing from production settings')
+            os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'expensemanager.settings')
+    else:
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'expensemanager.settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
