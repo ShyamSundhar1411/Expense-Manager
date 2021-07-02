@@ -5,6 +5,8 @@ from django.db.models import Sum
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,authenticate
+from django.contrib.auth.models import User
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse,Http404
 from django.urls import reverse_lazy
 from django.views import generic
@@ -120,18 +122,38 @@ def addbudget(request):
 @login_required()
 def dashboard(request):
     expense = Expense.objects.filter(expenser=request.user).order_by('-dot')
+    expense_page = request.GET.get('expense_page', 1)
+    expense_paginator = Paginator(expense,2)
+    expense_count = expense_paginator.count
     budget = Budget.objects.filter(userin=request.user)
+    budget_page = request.GET.get('budget_page', 1)
+    budget_paginator = Paginator(budget,3)
+    budget_count = budget_paginator.count
     totalbudget = Budget.objects.filter(userin=request.user).aggregate(total=Sum('budget'))
     totalexpense = Expense.objects.filter(expenser=request.user).aggregate(total=Sum('expense'))
+    try:
+        expenses = expense_paginator.page(expense_page)
+    except PageNotAnInteger :
+        expenses = expense_paginator.page(1)
+
+    except EmptyPage:
+        expenses = expense_paginator.page(expense_paginator.num_pages)
+
+    try:
+        budgets = budget_paginator.page(budget_page)
+    except PageNotAnInteger :
+        budgets = budget_paginator.page(1)
+    except EmptyPage:
+        budgets = budget_paginator.page(budget_paginator.num_pages)
     if  totalbudget['total'] is None or totalexpense['total'] is None:
-        return render(request,'expense/detail.html',{'expense_objects':expense,'budget_objects':budget})
+        return render(request,'expense/detail.html',{'expense_objects':expense,'budget_objects':budgets,'budget_count':budget_count,'expense_count':expense_count})
     elif totalbudget['total']-totalexpense['total'] < 100   :
         messages.error(request, "Your total expenses are higher than the allocated budgets." )
         messages.info(request, "Kindly manage your expenses accordingly in these categories [food/automobile/water supply/electricity/entertainment/others]" )
         send_email_alert(request.user.id)
-        return render(request,'expense/detail.html',{'expense_objects':expense,'budget_objects':budget})
+        return render(request,'expense/detail.html',{'expense_objects':expenses,'budget_objects':budgets,'budget_count':budget_count,'expense_count':expense_count})
     else:
-        return render(request,'expense/detail.html',{'expense_objects':expense,'budget_objects':budget})
+        return render(request,'expense/detail.html',{'expense_objects':expenses,'budget_objects':budgets,'budget_count':budget_count,'expense_count':expense_count})
 @login_required()
 def analysis(request):
         expense = Expense.objects.filter(expenser=request.user).order_by('-dot')

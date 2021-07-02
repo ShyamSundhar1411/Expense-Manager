@@ -20,10 +20,10 @@
       </div>
     </div>
     </div>
-    <h1>Budget{{budget_objects.count|pluralize}}</h1>
+    <h1>Budget{{budget_count|pluralize}}</h1>
     <div class='container d-inline-block'>
       <div class = 'row '>
-        {% for budget in budget_objects.all %}
+        {% for budget in budget_objects %}
         <div class = 'col-lg-4 col-md-6'>
           <div class="card card border-success mb-3">
             <div class="card-body">
@@ -47,14 +47,35 @@
           {% endfor %}
         </div>
       </div>
+      {% if budget_objects.has_other_pages %}
+      <ul class = 'pagination justify-content-center'>
+        {% if budget_objects.has_previous %}
+          <li class = 'page-item'><a class="page-link" href="?budget_page={{ budget_objects.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+      <li class="disabled page-item" ><a href="#" class="page-link">&laquo;</a></li>
+    {% endif %}
+    {% for num in budget_objects.paginator.page_range %}
+      {% ifequal num budget_objects.number %}
+        <li class="active page-item"><a href="#" class="page-link">{{ num }}<span class="sr-only">(current)</span></a></li>
+      {% else %}
+        <li class = 'page-item'><a class="page-link" href="?budget_page={{ num }}">{{ num }}</a></li>
+      {% endifequal %}
+    {% endfor %}
+    {% if budget_objects.has_next %}
+      <li class = 'page-item'><a class="page-link" href="?budget_page={{ budget_objects.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled page-item"><a class="page-link" href="#">&raquo;</a></li>
+    {% endif %}
+      </ul>
+      {% endif %}
       <a href ='{% url "addbudget" %}' class = 'btn btn-info btn-icon rounded-pill' style = 'color:white;text-decoration:none;' id = 'r'>Add Budget</a>
       <br/>
       <br/>
-      <h1>Expense{{expense_objects.count|pluralize}}</h1>
+      <h1>Expense{{expense_count|pluralize}}</h1>
       <br/>
       <div class='container'>
         <div class = 'row'>
-          {% for expense in expense_objects.all %}
+          {% for expense in expense_objects %}
           <div class="col-md-6 ">
             <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative card border-dark mb-3">
               <div class="col p-4 d-flex flex-column position-static bg-white " >
@@ -77,6 +98,27 @@
           </div>
           {% endfor %}
         </div>
+        {% if expense_objects.has_other_pages %}
+        <ul class = 'pagination justify-content-center'>
+          {% if expense_objects.has_previous %}
+            <li class = 'page-item'><a class="page-link" href="?expense_page={{ expense_objects.previous_page_number }}">&laquo;</a></li>
+          {% else %}
+        <li class="disabled page-item" ><a href="#" class="page-link">&laquo;</a></li>
+      {% endif %}
+      {% for num in expense_objects.paginator.page_range %}
+        {% ifequal num expense_objects.number %}
+          <li class="active page-item"><a href="#" class="page-link">{{ num }}<span class="sr-only">(current)</span></a></li>
+        {% else %}
+          <li class = 'page-item'><a class="page-link" href="?expense_page={{ num }}">{{ num }}</a></li>
+        {% endifequal %}
+      {% endfor %}
+      {% if expense_objects.has_next %}
+        <li class = 'page-item'><a class="page-link" href="?expense_page={{ expense_objects.next_page_number }}">&raquo;</a></li>
+      {% else %}
+        <li class="disabled page-item"><a class="page-link" href="#">&raquo;</a></li>
+      {% endif %}
+        </ul>
+        {% endif %}
       </div>
       <div class='d-inline-block'>
         <a href ='{% url "addexpense" %} ' class = 'btn btn-info btn-icon rounded-pill hover-translate-y-n4 mt-4'>Add Expense</a>
